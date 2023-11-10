@@ -59,6 +59,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -79,147 +80,86 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppBar()
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = Screens.ListsScreen.name
-                    ) {
-                        composable("listsScreen") { entry ->
-                            val text = entry.savedStateHandle.get<String>("myText")
-                            if (text != null) {
-                                ListScreen(navController = navController, text)
-                            }
-                        }
-                        composable("screenTwo") {
-                            LogInScreen(navController = navController)
-                        }
-                    }
-
+                    NavDrawer()
                 }
-
-               // NavDrawer()
             }
         }
     }
-}
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun NavDrawer() {
+        val navigationController = rememberNavController()
+        val drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        val scope = rememberCoroutineScope()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppBar() {
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                ModalDrawerSheet {
+            Text("DrawerTitle", modifier = Modifier.padding(16.dp))
+                    Divider()
+                    NavigationDrawerItem(
+                        label = { Text(text = "Item")},
+                        selected = false,
+                        onClick = {
+                            navigationController.navigate(Screens.LogInScreen.name)
+                            scope.launch {
+                                drawerState.apply {
+                                    close()
+                                }
+                            }
+                        })
+                }
+            },
+        ) {
+            Scaffold(
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                topBar = {
+                    TopAppBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            titleContentColor = MaterialTheme.colorScheme.primary
+                        ),
+                        title = {
+                            Text(
+                                text = stringResource(id = app_name)
+                            )
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                scope.launch {
+                                    drawerState.apply {
+                                        if (isClosed) open() else close()
+                                    }
+                                }
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Menu, contentDescription = null
+                                )
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                ),
-                title = {
-                    Text(
-                        text = stringResource(id = app_name)
+                            }
+                        },
+                        scrollBehavior = scrollBehavior
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu, contentDescription = null
-                        )
-
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        Text(text = "text", modifier = Modifier.padding(innerPadding))
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NavDrawer() {
-    val drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {}
-        },
-    ) {
-        Scaffold(
-            floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    text = { Text("Show Drawer") },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                    onClick = {
-                        scope.launch {
-                            drawerState.apply {
-                                if (isClosed) open() else close()
-                            }
-                        }
-                    }
-                )
+            ) { innerPadding ->
+                Text(text = "text", modifier = Modifier.padding(innerPadding))
+                NavGraph(navigationController)
             }
-        ) { contentPadding ->
-            Text(text = "text", modifier = Modifier.padding(contentPadding))
         }
+
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     ListTheme {
-        AppBar()
+        NavDrawer()
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LogInScreen(navController: NavHostController) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        // TopAppBar has slots for a title, navigation icon,
-        // and actions. Also known as the action bar.
-        TopAppBar(
-            title = { Text("LogInScreen") },
-            navigationIcon = {
-                IconButton(onClick = {}) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Menu")
-                }
-            }
-        )
-        Surface(color = Color(0xFFffd7d7.toInt()), modifier = Modifier.weight(1f)) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally){
-                var text by remember{
-                    mutableStateOf("")
-                } 
-                OutlinedTextField(value =text ,
-                    onValueChange = {text= it},
-                    modifier = Modifier.width(300.dp)
-                )
-                Button(onClick = {
-                        navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set("myText", text)
-                    navController.popBackStack()
-                }) {
-                        Text(text = "Apply")
-                    }
-
-                }
-            }
-        }
-    }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -275,30 +215,6 @@ fun Registration(navController: NavHostController) {
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ListScreen(navController: NavHostController, text: String) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { Text("Screen 2 Title") },
-            navigationIcon = {
-                IconButton(onClick = { }) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
-                }
-            }
-        )
-        Surface(color = Color(0xFFffe9d6.toInt()), modifier = Modifier.weight(1f)) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Button(onClick = { navController.navigate("screenTwo") }){
-                    Text(text = "Screen 2 Title")
-
-            }
-            Text(text = text)}
-    }
-}
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Screen3Component(navController: NavHostController) {
@@ -322,27 +238,4 @@ fun Screen3Component(navController: NavHostController) {
         }
     }
 }
-
-/*
-@Composable
-fun AppNavHost(
-    modifier: Modifier = Modifier,
-    navController: NavHostController,
-    startDestination: String = NavigationItem.List.route
-) {
-
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = Screens.ListsScreen.name
-    ) {
-        composable(NavigationItem.LogIn.route) {
-            LogInScreen(navController)
-        }
-        composable(NavigationItem.Settings.route) {
-            Screen3Component(navController)
-        }
-    }
 }
-
- */

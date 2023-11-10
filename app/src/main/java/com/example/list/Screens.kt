@@ -9,13 +9,13 @@ enum class Screens {
     RemoveAdsScreen
 }
 /*
-sealed class NavigationItem(val route: String){
-    object List : NavigationItem(Screens.ListsScreen.name)
-    object LogIn : NavigationItem(Screens.LogInScreen.name)
-    object Trash : NavigationItem(Screens.TrashScreen.name)
-    object Settings : NavigationItem(Screens.SettingsScreen.name)
-    object Apperance : NavigationItem(Screens.ApperanceScreen.name)
-    object RemoveAds : NavigationItem(Screens.RemoveAdsScreen.name)
+sealed class Screen(val route: String){
+    object List : Screen(Screens.ListsScreen.name)
+    object LogIn : Screen(Screens.LogInScreen.name)
+    object Trash : Screen(Screens.TrashScreen.name)
+    object Settings : Screen(Screens.SettingsScreen.name)
+    object Apperance : Screen(Screens.ApperanceScreen.name)
+    object RemoveAds : Screen(Screens.RemoveAdsScreen.name)
 }
 
  */
