@@ -6,7 +6,8 @@ enum class Screens {
     TrashScreen,
     SettingsScreen,
     ApperanceScreen,
-    RemoveAdsScreen
+    RemoveAdsScreen,
+    AddListScreen
 }
 /*
 sealed class Screen(val route: String){

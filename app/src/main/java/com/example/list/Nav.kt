@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.list.screens.AddList
 import com.example.list.screens.ListScreen
 import com.example.list.screens.LogInScreen
 
@@ -18,6 +19,9 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(Screens.LogInScreen.name) {
             LogInScreen(navController = navController)
+        }
+        composable(Screens.AddListScreen.name){
+            AddList(navController = navController)
         }
     }
 }
