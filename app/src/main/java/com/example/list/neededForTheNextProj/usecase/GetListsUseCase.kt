@@ -1,11 +1,10 @@
-package com.example.list.usecase
+package com.example.list.neededForTheNextProj.usecase
 
 import com.example.list.data.ListEntity
-import com.example.list.data.ListRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-
+/*
 //giving order to the list
 class GetListsUseCase(private val repository: ListRepository) {
     suspend operator fun invoke(listOrder: ListOrder = ListOrder.ListName(OrderType.Descending)): Flow<List<ListEntity>>{
@@ -29,3 +28,5 @@ class GetListsUseCase(private val repository: ListRepository) {
             }
     }
 }
+
+ */

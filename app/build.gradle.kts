@@ -101,6 +101,7 @@ dependencies {
 
     val lifecycle_version = "2.6.2"
     val arch_version = "2.2.0"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")

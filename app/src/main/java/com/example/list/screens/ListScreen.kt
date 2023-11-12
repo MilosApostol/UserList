@@ -19,19 +19,30 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.list.Screens
+import com.example.list.data.ListDao
 import com.example.list.data.ListViewModel
+import kotlinx.coroutines.coroutineScope
+import javax.inject.Inject
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.collectAsState
 
+@Inject
+lateinit var listDao: ListDao
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen(navController: NavHostController) {
-    val viewModelList: ListViewModel = viewModel()
-    viewModelList.getAllLists()
+fun ListScreen(navController: NavHostController, listViewModel: ListViewModel = hiltViewModel()) {
+    val allListsState by rememberUpdatedState(newValue = viewModel.getAllLists())
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text("Screen 2 Title") },
@@ -42,13 +53,9 @@ fun ListScreen(navController: NavHostController) {
             }
         )
         Surface(color = Color(0xFFffe9d6.toInt()), modifier = Modifier.weight(1f)) {
-            LazyVerticalGrid(
-                cells = GridCells.Adaptive(minSize = 128.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                items(viewModelList.lists) { list ->
+            LazyVerticalGrid( columns = GridCells.Adaptive(minSize = 128.dp)
+                 ) {
+                items(allListsState) { list ->
                     // Display each item in the list in a separate column
                     Card(
                         modifier = Modifier

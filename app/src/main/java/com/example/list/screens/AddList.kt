@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.list.Screens
 import com.example.list.data.ListDao
 import com.example.list.data.ListViewModel
+import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

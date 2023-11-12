@@ -1,11 +1,12 @@
-package com.example.list.usecase
+package com.example.list.neededForTheNextProj.usecase
 
 import com.example.list.data.ListEntity
-import com.example.list.data.ListRepository
-
+/*
 class DeleteList(private val repository: ListRepository) {
 
-    suspend fun invoke(list: ListEntity){
+    suspend operator fun invoke(list: ListEntity){
         repository.deleteList(list)
     }
 }
+
+ */
