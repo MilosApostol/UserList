@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
@@ -16,28 +14,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.list.Screens
-import com.example.list.data.ListDao
 import com.example.list.data.ListViewModel
-import kotlinx.coroutines.coroutineScope
-import javax.inject.Inject
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.collectAsState
-import com.example.list.data.ListEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,8 +40,7 @@ fun ListScreen(navController: NavHostController) {
             }
         )
         Surface(color = Color(0xFFffe9d6.toInt()), modifier = Modifier.weight(1f)) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 128.dp)
+            LazyColumn(
             ) {
                 items(listViewModel.lists) { list ->
                     // Display each item in the list in a separate column
@@ -76,10 +62,62 @@ fun ListScreen(navController: NavHostController) {
                     }
                 }
             }
+
+
             Button(onClick = { navController.navigate(Screens.LogInScreen.name) }) {
                 Text(text = "Screen 2 Title")
             }
-            Text(text = "seksi")
         }
     }
-}
+ }
+/*
+    @Composable
+    fun ListS(navController: NavController, listViewModel: ListViewModel = hiltViewModel()) {
+        Scaffold(
+            floatingActionButton =
+            {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(Screens.AddListScreen.name)
+                    },
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+                ) {
+                    Icon(Icons.Filled.Add, "Add List")
+                }
+            })
+        { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Text(text = "Your lists", modifier = Modifier.padding(paddingValues))
+            }
+            LazyColumn(modifier = Modifier.fillMaxSize())
+            {
+                items(listViewModel.lists) { list ->
+                    ListItems(list = list, modifier = Modifier.fillMaxSize()
+                        .clickable {},
+                        onDeleteClick = {
+                            /*
+                            viewModel.onEvent(NotesEvent.DeleteNote(note))
+                            scope.launch {
+                                val result = scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Note deleted",
+                                    actionLabel = "Undo"
+                                )
+                                if(result == SnackbarResult.ActionPerformed) {
+                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                }
+                            }
+                        }
+
+                             */
+                        })
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
+        }
+    }
+
+ */

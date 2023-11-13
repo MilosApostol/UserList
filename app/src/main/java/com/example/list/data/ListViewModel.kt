@@ -1,6 +1,7 @@
 package com.example.list.data
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
@@ -17,10 +18,9 @@ class ListViewModel @Inject constructor(
 
     private var recentlyDeleted: ListEntity? = null
 
-    fun addList(name: String) {
+    fun addList(name: ListEntity) {
         viewModelScope.launch {
-            val newList = ListEntity(listName = name)
-            repository.insertList(newList)
+            repository.insertList(name)
             getAllLists()//refresh the list after insertion
         }
     }

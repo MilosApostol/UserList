@@ -64,8 +64,8 @@ fun AddList(navController: NavController, listViewModel: ListViewModel = hiltVie
                 Button(
                     onClick = {
                         isLoading = true
-                        val newList = ListEntity(listName = text)
-                        listViewModel.addList(newList.toString())// or just (text)
+                        val newList = ListEntity(0, listName = text)
+                        listViewModel.addList(newList)// or just (text)
                         navController.navigate(Screens.ListsScreen.name)
                     },
                     enabled = !isLoading
