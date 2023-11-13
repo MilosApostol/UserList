@@ -16,7 +16,7 @@ interface ListDao {
     suspend fun getAll(): Flow<List<ListEntity>>
 
     @Query("SELECT * FROM list_table WHERE id = :listId")
-    suspend fun getListId(listId: Int): List<ListEntity>
+    suspend fun getListId(listId: Int): Flow<ListEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(list: ListEntity)

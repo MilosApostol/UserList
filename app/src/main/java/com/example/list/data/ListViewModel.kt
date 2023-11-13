@@ -3,11 +3,15 @@ package com.example.list.data
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ListViewModel(private val repository: Repository) : ViewModel() {
+class ListViewModel @Inject constructor(
+    private val repository: Repository) : ViewModel(){
+
     private val _lists = mutableStateListOf<ListEntity>()
     val lists: List<ListEntity> get() = _lists
 
@@ -28,7 +32,7 @@ class ListViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    suspend fun getListById(listId: Int): List<ListEntity> {
+    suspend fun getListById(listId: Int): Flow<ListEntity> {
         return repository.getListById(listId)
     }
 
@@ -41,7 +45,6 @@ class ListViewModel(private val repository: Repository) : ViewModel() {
 
     fun removeList(listId: ListEntity) {
         viewModelScope.launch {
-            val listToRemove = repository.insertList(listId)
             repository.deleteList(listId)
             getAllLists()//refresh
         }

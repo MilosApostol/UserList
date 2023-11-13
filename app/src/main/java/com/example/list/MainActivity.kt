@@ -69,14 +69,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.list.R.string.app_name
 import com.example.list.ui.theme.ListTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ListTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -86,6 +86,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun NavDrawer() {
@@ -98,13 +99,13 @@ class MainActivity : ComponentActivity() {
             drawerState = drawerState,
             drawerContent = {
                 ModalDrawerSheet {
-            Text("DrawerTitle", modifier = Modifier.padding(16.dp))
+                    Text("DrawerTitle", modifier = Modifier.padding(16.dp))
                     Divider()
                     NavigationDrawerItem(
-                        label = { Text(text = "Item")},
+                        label = { Text(text = "Item") },
                         selected = false,
                         onClick = {
-                            navigationController.navigate(Screens.LogInScreen.name)
+                            navigationController.navigate(Screens.ListsScreen.name)
                             scope.launch {
                                 drawerState.apply {
                                     close()
@@ -148,7 +149,11 @@ class MainActivity : ComponentActivity() {
             ) { innerPadding ->
                 Text(text = "text", modifier = Modifier.padding(innerPadding))
                 NavGraph(navigationController)
-                FloatingActionButton(onClick = {navigationController.navigate(Screens.AddListScreen.name)}){
+                FloatingActionButton(
+                    onClick = {
+                        navigationController.navigate(Screens.AddListScreen.name)
+                    })
+                {
                     Icon(Icons.Filled.Add, "Add List")
                 }
             }
@@ -157,14 +162,15 @@ class MainActivity : ComponentActivity() {
     }
 
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ListTheme {
-        NavDrawer()
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        ListTheme {
+            NavDrawer()
+        }
     }
 }
-
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPassword(navController: NavHostController) {
@@ -242,4 +248,5 @@ fun Screen3Component(navController: NavHostController) {
         }
     }
 }
-}
+
+ */

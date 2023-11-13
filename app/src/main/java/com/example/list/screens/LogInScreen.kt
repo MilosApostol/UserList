@@ -22,8 +22,6 @@ import androidx.navigation.NavHostController
 @Composable
 fun LogInScreen(navController: NavHostController) {
     Column(modifier = Modifier.fillMaxSize()) {
-        // TopAppBar has slots for a title, navigation icon,
-        // and actions. Also known as the action bar.
         TopAppBar(
             title = { Text("LogInScreen") },
             navigationIcon = {

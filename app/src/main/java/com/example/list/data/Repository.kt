@@ -8,7 +8,7 @@ class Repository (private val dao: ListDao) {
         return dao.getAll()
     }
 
-    suspend fun getListById(id: Int): List<ListEntity>{
+    suspend fun getListById(id: Int): Flow<ListEntity>{
         return dao.getListId(id)
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
@@ -15,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -35,14 +37,12 @@ import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.collectAsState
+import com.example.list.data.ListEntity
 
-@Inject
-lateinit var listDao: ListDao
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen(navController: NavHostController, listViewModel: ListViewModel = hiltViewModel()) {
-    val allListsState by rememberUpdatedState(newValue = viewModel.getAllLists())
-
+fun ListScreen(navController: NavHostController) {
+    val listViewModel: ListViewModel = hiltViewModel()
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text("Screen 2 Title") },
@@ -53,9 +53,10 @@ fun ListScreen(navController: NavHostController, listViewModel: ListViewModel = 
             }
         )
         Surface(color = Color(0xFFffe9d6.toInt()), modifier = Modifier.weight(1f)) {
-            LazyVerticalGrid( columns = GridCells.Adaptive(minSize = 128.dp)
-                 ) {
-                items(allListsState) { list ->
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 128.dp)
+            ) {
+                items(listViewModel.lists) { list ->
                     // Display each item in the list in a separate column
                     Card(
                         modifier = Modifier
@@ -69,18 +70,16 @@ fun ListScreen(navController: NavHostController, listViewModel: ListViewModel = 
                                 .padding(16.dp)
                                 .fillMaxWidth()
                         ) {
-                            Text(text = list.name) // Assuming 'name' is a property in ListEntity
-                            // Add other details if needed
+                            Text(text = list.uid.toString())
+                            Text(text = list.listName.orEmpty()) // Assuming 'listName' is a property in ListEntity
                         }
                     }
                 }
             }
-                Button(onClick = { navController.navigate(Screens.LogInScreen.name) }) {
-                    Text(text = "Screen 2 Title")
-
-                }
-                Text(text = "seksi")
+            Button(onClick = { navController.navigate(Screens.LogInScreen.name) }) {
+                Text(text = "Screen 2 Title")
             }
+            Text(text = "seksi")
         }
     }
 }
