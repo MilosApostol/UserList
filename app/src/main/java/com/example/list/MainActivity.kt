@@ -3,28 +3,16 @@ package com.example.list
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -41,40 +28,18 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.NavHost
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import com.example.list.R.string.app_name
 import com.example.list.ui.theme.ListTheme
 import dagger.hilt.android.AndroidEntryPoint
-<<<<<<< HEAD
-import dagger.hilt.android.HiltAndroidApp
-=======
->>>>>>> origin/to-be-renewed
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,8 +47,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ListTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     NavDrawer()
                 }
@@ -105,8 +69,7 @@ class MainActivity : ComponentActivity() {
                 ModalDrawerSheet {
                     Text("DrawerTitle", modifier = Modifier.padding(16.dp))
                     Divider()
-                    NavigationDrawerItem(
-                        label = { Text(text = "Item") },
+                    NavigationDrawerItem(label = { Text(text = "Item") },
                         selected = false,
                         onClick = {
                             navigationController.navigate(Screens.ListsScreen.name)
@@ -153,11 +116,9 @@ class MainActivity : ComponentActivity() {
             ) { innerPadding ->
                 Text(text = "text", modifier = Modifier.padding(innerPadding))
                 NavGraph(navigationController)
-                FloatingActionButton(
-                    onClick = {
-                        navigationController.navigate(Screens.AddListScreen.name)
-                    })
-                {
+                FloatingActionButton(onClick = {
+                    navigationController.navigate(Screens.AddListScreen.name)
+                }) {
                     Icon(Icons.Filled.Add, "Add List")
                 }
             }
@@ -173,8 +134,7 @@ class MainActivity : ComponentActivity() {
             NavDrawer()
         }
     }
-}
-/*
+}/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPassword(navController: NavHostController) {

@@ -12,11 +12,7 @@ import com.example.list.screens.LogInScreen
 fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-<<<<<<< HEAD
         startDestination = Screens.AddListScreen.name
-=======
-        startDestination = Screens.ListsScreen.name
->>>>>>> origin/to-be-renewed
     ) {
         composable(Screens.ListsScreen.name) {
             ListScreen(navController = navController)
