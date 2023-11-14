@@ -70,7 +70,10 @@ import androidx.navigation.navigation
 import com.example.list.R.string.app_name
 import com.example.list.ui.theme.ListTheme
 import dagger.hilt.android.AndroidEntryPoint
+<<<<<<< HEAD
 import dagger.hilt.android.HiltAndroidApp
+=======
+>>>>>>> origin/to-be-renewed
 import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

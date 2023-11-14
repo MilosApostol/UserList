@@ -12,3 +12,8 @@ data class ListEntity(
     @ColumnInfo(name = "list_name")
     val listName: String?
 )
+<<<<<<< HEAD
+=======
+
+class InvalidListException(message: String) : Exception(message)
+>>>>>>> origin/to-be-renewed

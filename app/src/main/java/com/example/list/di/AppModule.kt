@@ -3,8 +3,11 @@ package com.example.list.di
 import android.content.Context
 import androidx.room.Room
 import com.example.list.data.AppDatabase
+<<<<<<< HEAD
 import com.example.list.data.ListDao
 import com.example.list.data.ListRepository
+=======
+>>>>>>> origin/to-be-renewed
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,8 +30,11 @@ class AppModule {
     @Provides
     @Singleton
     fun providesListDao(database: AppDatabase) = database.listDao()
+<<<<<<< HEAD
 
     @Provides
     @Singleton
     fun provideRepository(dao: ListDao) = ListRepository(dao)
+=======
+>>>>>>> origin/to-be-renewed
 }
