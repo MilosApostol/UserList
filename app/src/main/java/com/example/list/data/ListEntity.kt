@@ -8,9 +8,8 @@ import androidx.room.PrimaryKey
 data class ListEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val uid: Int = 0,
+    val id: Int = 0,
     @ColumnInfo(name = "list_name")
-    val listName: String?
+    var listName: String
 )
 
-class InvalidListException(message: String) : Exception(message)

@@ -61,8 +61,6 @@ class MainActivity : ComponentActivity() {
         val navigationController = rememberNavController()
         val drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
@@ -83,7 +81,6 @@ class MainActivity : ComponentActivity() {
             },
         ) {
             Scaffold(
-                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                 topBar = {
                     TopAppBar(
                         modifier = Modifier.fillMaxWidth(),
@@ -110,30 +107,27 @@ class MainActivity : ComponentActivity() {
 
                             }
                         },
-                        scrollBehavior = scrollBehavior
                     )
                 },
             ) { innerPadding ->
                 Text(text = "text", modifier = Modifier.padding(innerPadding))
                 NavGraph(navigationController)
-                FloatingActionButton(onClick = {
-                    navigationController.navigate(Screens.AddListScreen.name)
-                }) {
-                    Icon(Icons.Filled.Add, "Add List")
-                }
+                //     FloatingActionButton(onClick = {
+                //     navigationController.navigate(Screens.AddListScreen.name)
+                ///  }) {
+                //       Icon(Icons.Filled.Add, "Add List")
             }
         }
-
     }
 
 
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        ListTheme {
-            NavDrawer()
-        }
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    ListTheme {
+        NavDrawer()
     }
+}
 }/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
