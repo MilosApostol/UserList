@@ -17,9 +17,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ListTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    NavDrawer()
+                    NavGraph()
                 }
             }
         }

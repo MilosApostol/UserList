@@ -13,18 +13,24 @@ import com.example.list.screens.LogInScreen
 
 @Composable
 fun NavGraph(
-    navController: NavHostController = rememberNavController()) {
+    navController: NavHostController = rememberNavController()
+) {
     NavHost(
         navController = navController,
-        startDestination = Screens.ListsScreen.name
+        startDestination = Screen.DrawerScreen.List.route
     ) {
-        composable(Screens.ListsScreen.name) {
+        composable(
+            Screen.DrawerScreen.List.route
+        ) {
             ListScreen(navController = navController)
         }
-        composable(Screens.LogInScreen.name) {
+        composable(Screen.DrawerScreen.LogIn.route) {
             LogInScreen(navController = navController)
         }
-        composable(Screens.AddListScreen.name) {
+        composable(Screen.DrawerScreen.Add.route) {
+            AddList(navController = navController)
+        }
+        composable(Screen.DrawerScreen.Register.route) {
             AddList(navController = navController)
         }
     }

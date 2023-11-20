@@ -25,7 +25,7 @@ abstract class ListDao {
     abstract suspend fun updateList(list: ListEntity)
 
     @Delete
-    abstract suspend fun deleteList(list: ListEntity)
+    abstract suspend fun deleteList(list:ListEntity)
     @Query("DELETE FROM `list_table`")
     suspend fun deleteAllLists() {
     }

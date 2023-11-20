@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.list.Screens
+import com.example.list.Screen
 import com.example.list.data.ListEntity
 import com.example.list.data.ListViewModel
 
@@ -65,7 +65,7 @@ fun AddList(navController: NavController, listViewModel: ListViewModel = hiltVie
                             isLoading = true
                             val newList = ListEntity(0, listName = text)
                             listViewModel.addList(newList)
-                            navController.navigate(Screens.ListsScreen.name)
+                            navController.navigate(Screen.DrawerScreen.List.route)
                             Toast.makeText(context, newList.listName, Toast.LENGTH_LONG).show()
 
                         } else {

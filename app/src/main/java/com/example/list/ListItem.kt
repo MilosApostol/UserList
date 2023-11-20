@@ -29,16 +29,14 @@ fun ListItems(
     list: ListEntity,
     modifier: Modifier = Modifier,
     onRenameClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
 ) {
     Card(
         modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-                //todo
+                //Todo
             }
-            .border(1.dp, Color.Black),
     ) {
         Row(
             modifier = Modifier
@@ -47,18 +45,15 @@ fun ListItems(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Text on one side
             Text(
                 text = list.listName,
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodyMedium
             )
 
-            // Trash can icon on the other side
-
             Row(
                 modifier = Modifier.padding(end = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Icon(
                     imageVector = Icons.Filled.DriveFileRenameOutline,
@@ -69,17 +64,6 @@ fun ListItems(
                         .clip(CircleShape)
                         .clickable {
                             onRenameClick()
-                        }
-                )
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = "Rename",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            onDeleteClick()
                         }
                 )
             }
