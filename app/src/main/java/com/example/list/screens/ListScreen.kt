@@ -1,8 +1,7 @@
 package com.example.list.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.list.ListItems
+import com.example.list.NavDrawer
 import com.example.list.Screens
 import com.example.list.data.ListEntity
 import com.example.list.data.ListViewModel
@@ -44,9 +45,15 @@ fun ListScreen(navController: NavController, listViewModel: ListViewModel = hilt
         }
     ) { paddingValues ->
         val list = listViewModel.getAllLists.collectAsState(initial = listOf())
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             items(list.value) {
-                ListItems(list = it)
+                ListItems(
+                    list = it, onDeleteClick = { listViewModel.removeList(list = it) }
+                )
             }
         }
     }

@@ -11,7 +11,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +26,6 @@ class ListViewModel @Inject constructor(
     private val _lists = mutableStateListOf<ListEntity>()
     val lists: List<ListEntity> get() = _lists
 
-    private var recentlyDeleted: ListEntity? = null
-
     fun addList(list: ListEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertList(list)
@@ -32,22 +33,14 @@ class ListViewModel @Inject constructor(
         }
     }
 
-     lateinit var getAllLists: Flow<List<ListEntity>>
+    lateinit var getAllLists: Flow<List<ListEntity>>
 
     init {
         viewModelScope.launch() {
             getAllLists = repository.getLists()
         }
     }
-    /*
-    suspend fun getAllLists() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _lists.clear()
-            repository.getLists()
-        }
-    }
 
-     */
 
     suspend fun getListById(listId: Int): Flow<ListEntity> {
         return repository.getListById(listId)
@@ -65,5 +58,12 @@ class ListViewModel @Inject constructor(
             repository.deleteList(list)
             getAllLists//refresh
         }
+    }
+
+    fun deleteAllLists() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllLists()
+        }
+
     }
 }

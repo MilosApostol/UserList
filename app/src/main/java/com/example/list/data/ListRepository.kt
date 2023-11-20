@@ -24,4 +24,7 @@ class ListRepository @Inject constructor(private val dao: ListDao) {
     suspend fun deleteList(list: ListEntity) {
         dao.deleteList(list)
     }
+    suspend fun deleteAllLists() {
+        dao.deleteAllLists()
+    }
 }

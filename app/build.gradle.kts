@@ -68,6 +68,7 @@ kapt {
 dependencies {
     implementation("androidx.media3:media3-common:1.1.1")
     val room_version = "2.6.0"
+    implementation ("androidx.compose.material:material-icons-extended:1.5.4")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
