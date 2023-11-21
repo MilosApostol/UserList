@@ -15,7 +15,7 @@ abstract class ListDao {
     @Query("SELECT * FROM `list_table`")
     abstract fun getAll(): Flow<List<ListEntity>>
 
-    @Query("SELECT * FROM 'list_table' WHERE id = :listId")
+    @Query("SELECT * FROM 'list_table' WHERE listId = :listId")
     abstract fun getListId(listId: Int): Flow<ListEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -25,10 +25,9 @@ abstract class ListDao {
     abstract suspend fun updateList(list: ListEntity)
 
     @Delete
-    abstract suspend fun deleteList(list:ListEntity)
+    abstract suspend fun deleteList(list: ListEntity)
+
     @Query("DELETE FROM `list_table`")
     suspend fun deleteAllLists() {
     }
-
-
 }

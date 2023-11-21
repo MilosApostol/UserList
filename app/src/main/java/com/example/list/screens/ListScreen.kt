@@ -1,5 +1,6 @@
 package com.example.list.screens
 
+import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -50,7 +52,7 @@ fun ListScreen(
     navController: NavController = rememberNavController(),
     listViewModel: ListViewModel = hiltViewModel()
 ) {
-
+    val context = LocalContext.current
     val lists = listViewModel.getAllLists.collectAsState(initial = listOf())
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -58,6 +60,7 @@ fun ListScreen(
     val currentScreen = remember { listViewModel.currentScreen.value }
     val title = remember { mutableStateOf(currentScreen.title) }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -82,7 +85,8 @@ fun ListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screen.DrawerScreen.Add.route)
+                    val id = 0
+                    navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
                 },
             ) {
                 Icon(Icons.Filled.Add, "Add List")
@@ -144,13 +148,15 @@ fun ListScreen(
                     directions = setOf(
                         DismissDirection.EndToStart,
                     ),
-                    dismissThresholds = { FractionalThreshold(0.25f) },
+                    dismissThresholds = { FractionalThreshold(0.5f) },
                     dismissContent = {
                         ListItems(
                             list = list
                         ) {
                             val id = list.id
                             navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
+                            Toast.makeText(context, "Proba", Toast.LENGTH_LONG).show()
+
                         }
                     }
                 )

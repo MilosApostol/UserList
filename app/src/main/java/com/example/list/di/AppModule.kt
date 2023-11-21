@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.list.data.AppDatabase
 import com.example.list.data.ListDao
 import com.example.list.data.ListRepository
+import com.example.list.userdata.UserDao
+import com.example.list.userdata.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +33,12 @@ class AppModule {
     @Provides
     @Singleton
     fun provideRepository(dao: ListDao) = ListRepository(dao)
+
+    @Provides
+    @Singleton
+    fun providesUserDao(database: AppDatabase) = database.userDao()
+
+    @Provides
+    @Singleton
+    fun providesRepository(dao: UserDao) = UserRepository(dao)
 }

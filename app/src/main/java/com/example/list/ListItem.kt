@@ -26,7 +26,7 @@ import com.example.list.data.ListEntity
 
 @Composable
 fun ListItems(
-    list: ListEntity,
+    list: ListEntity = ListEntity(listName = "", listCreatorId = 0),
     modifier: Modifier = Modifier,
     onRenameClick: () -> Unit = {},
 ) {
@@ -74,5 +74,5 @@ fun ListItems(
 @Preview
 @Composable
 fun List() {
-    ListItems(list = ListEntity(0, "list name name "))
+    ListItems(list = ListEntity(0, 0, "tuCturc"))
 }

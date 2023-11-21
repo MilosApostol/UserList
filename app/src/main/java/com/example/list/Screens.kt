@@ -10,16 +10,16 @@ sealed class Screen(
 
     sealed class DrawerScreen(val dTitle: String, val dRoute: String, @DrawableRes val icon: Int) :
         Screen(title = dTitle, route = dRoute) {
-        object List : DrawerScreen("ListScreen", "list_route", R.drawable.ic_list)
-        object Add : DrawerScreen("AddScreen", "add_route", R.drawable.ic_add)
-        object Register :
+        data object List : DrawerScreen("ListScreen", "list_route", R.drawable.ic_list)
+        data object Add : DrawerScreen("AddScreen", "add_route", R.drawable.ic_add)
+        data object Register :
             DrawerScreen(
                 "RegisterScreen",
                 "register_route",
                 R.drawable.baseline_app_registration_24
             )
 
-        object LogIn : DrawerScreen("LogInScreen", "login_route", R.drawable.baseline_login_24)
+        data object LogIn : DrawerScreen("LogInScreen", "login_route", R.drawable.baseline_login_24)
     }
 }
 
