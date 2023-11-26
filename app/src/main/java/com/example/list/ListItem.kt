@@ -1,85 +1,78 @@
 package com.example.list
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DriveFileRenameOutline
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.graphics.vector.Path
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.ColorUtils
 import com.example.list.data.ListEntity
-/*
+
 @Composable
 fun ListItems(
-    list: ListEntity,
+    list: ListEntity = ListEntity(listName = "", listCreatorId = 0),
     modifier: Modifier = Modifier,
-    cornerRadius: Dp = 10.dp,
-    cutCornerSize: Dp = 30.dp,
-    onDeleteClick: () -> Unit
+    onRenameClick: () -> Unit = {},
 ) {
-    Box(
-        modifier = modifier
+    Card(
+        modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable {
+                //Todo
+            }
     ) {
-        Canvas(modifier = Modifier.matchParentSize()) {
-            val clipPath = androidx.compose.ui.graphics.Path().apply {
-                lineTo(size.width - cutCornerSize.toPx(), 0f)
-                lineTo(size.width, cutCornerSize.toPx())
-                lineTo(size.width, size.height)
-                lineTo(0f, size.height)
-                close()
-            }
-
-            clipPath(clipPath) {
-                drawRoundRect(
-                    color = Color.Blue,
-                    size = size,
-                    cornerRadius = CornerRadius(cornerRadius.toPx())
-                )
-            }
-        }
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .padding(end = 32.dp)
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            list.listName?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            IconButton(
-                onClick = onDeleteClick
+            Text(
+                text = list.listName,
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+            Row(
+                modifier = Modifier.padding(end = 8.dp),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete note",
-                    tint = MaterialTheme.colorScheme.onSurface
+                    imageVector = Icons.Filled.DriveFileRenameOutline,
+                    contentDescription = "Rename",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .clickable {
+                            onRenameClick()
+                        }
                 )
             }
         }
     }
 }
-*/
+
+@Preview
+@Composable
+fun List() {
+    ListItems(list = ListEntity(0, 0, "tuCturc"))
+}
