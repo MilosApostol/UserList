@@ -1,23 +1,54 @@
 package com.example.list.data
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.list.ListEvent
+import com.example.list.ListState
+import com.example.list.use_case.ListUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ListViewModel @Inject constructor(
-    private val repository: Repository) : ViewModel(){
+    private val useCase: ListUseCase
+) : ViewModel() {
 
-    private val _lists = mutableStateListOf<ListEntity>()
-    val lists: List<ListEntity> get() = _lists
+    val _lists = mutableStateOf(ListState())
+    val lists: State<ListState> = _lists
 
     private var recentlyDeleted: ListEntity? = null
 
+    fun onEvent(event: ListEvent) {
+        when (event) {
+            is ListEvent.DeleteList -> {
+                viewModelScope.launch {
+                    useCase.deleteList(event.list)
+                    recentlyDeleted = event.list
+                }
+            }
+
+            is ListEvent.RestoreList -> {
+                viewModelScope.launch {
+                    useCase.addList(recentlyDeleted ?: return@launch)
+                    recentlyDeleted = null
+                }
+            }
+
+            is ListEvent.AddList -> {
+                viewModelScope.launch {
+                    useCase.addList(event.list)
+                }
+            }
+        }
+    }
+}
+/*
     fun addList(name: ListEntity) {
         viewModelScope.launch {
             repository.insertList(name)
@@ -27,12 +58,11 @@ class ListViewModel @Inject constructor(
 
     fun getAllLists() {
         viewModelScope.launch {
-            _lists.clear()
             repository.getLists()
         }
     }
 
-    suspend fun getListById(listId: Int): Flow<ListEntity> {
+    suspend fun getListById(listId: Int): ListEntity {
         return repository.getListById(listId)
     }
 
@@ -50,3 +80,5 @@ class ListViewModel @Inject constructor(
         }
     }
 }
+
+ */

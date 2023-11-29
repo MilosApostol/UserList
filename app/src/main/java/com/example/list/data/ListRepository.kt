@@ -1,14 +1,15 @@
 package com.example.list.data
 
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class Repository (private val dao: ListDao) {
+class ListRepository @Inject constructor(private val dao: ListDao) {
 
-    suspend fun getLists(): Flow<List<ListEntity>> {
+    suspend fun getLists(): Flow<ListEntity> {
         return dao.getAll()
     }
 
-    suspend fun getListById(id: Int): Flow<ListEntity>{
+    suspend fun getListById(id: Int): ListEntity {
         return dao.getListId(id)
     }
 

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.example.list.data.ListEntity
-/*
+
 @Composable
 fun ListItems(
     list: ListEntity,
@@ -82,4 +82,3 @@ fun ListItems(
         }
     }
 }
-*/

@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 interface ListDao {
 
     @Query("SELECT * FROM list_table")
-    suspend fun getAll(): Flow<List<ListEntity>>
+    suspend fun getAll(): Flow<ListEntity>
 
     @Query("SELECT * FROM list_table WHERE id = :listId")
-    suspend fun getListId(listId: Int): Flow<ListEntity>
+    suspend fun getListId(listId: Int): ListEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(list: ListEntity)

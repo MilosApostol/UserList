@@ -42,7 +42,8 @@ fun ListScreen(navController: NavHostController) {
         Surface(color = Color(0xFFffe9d6.toInt()), modifier = Modifier.weight(1f)) {
             LazyColumn(
             ) {
-                items(listViewModel.lists) { list ->
+                /*
+               // items(listViewModel.lists) { list ->
                     // Display each item in the list in a separate column
                     Card(
                         modifier = Modifier
@@ -59,7 +60,9 @@ fun ListScreen(navController: NavHostController) {
                             Text(text = list.uid.toString())
                             Text(text = list.listName.orEmpty()) // Assuming 'listName' is a property in ListEntity
                         }
+
                     }
+                 */
                 }
             }
 
@@ -69,7 +72,7 @@ fun ListScreen(navController: NavHostController) {
             }
         }
     }
- }
+
 /*
     @Composable
     fun ListS(navController: NavController, listViewModel: ListViewModel = hiltViewModel()) {
