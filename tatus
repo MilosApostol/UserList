@@ -1,0 +1,19 @@
+[33mcommit 5f9ccc45c1775a59145cc64f751faa6caede0471[m[33m ([m[1;36mHEAD -> [m[1;32msava[m[33m, [m[1;31morigin/sava[m[33m)[m
+Author: Milos <milosapostolovic321@gmail.com>
+Date:   Wed Nov 29 11:35:59 2023 +0100
+
+    a
+
+[1mdiff --git a/.idea/kotlinScripting.xml b/.idea/kotlinScripting.xml[m
+[1mindex e56386c..26da98e 100644[m
+[1m--- a/.idea/kotlinScripting.xml[m
+[1m+++ b/.idea/kotlinScripting.xml[m
+[36m@@ -3,7 +3,6 @@[m
+   <component name="KotlinScriptingSettings">[m
+     <scriptDefinition className="org.jetbrains.kotlin.scripting.resolve.KotlinScriptDefinitionFromAnnotatedTemplate" definitionName="KotlinBuildScript">[m
+       <order>2147483647</order>[m
+[31m-      <autoReloadConfigurations>true</autoReloadConfigurations>[m
+     </scriptDefinition>[m
+   </component>[m
+ </project>[m
+\ No newline at end of file[m
