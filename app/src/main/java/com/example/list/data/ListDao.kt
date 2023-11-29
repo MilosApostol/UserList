@@ -10,22 +10,32 @@ import kotlinx.coroutines.flow.Flow
 
 
 @Dao
-interface ListDao {
+abstract class ListDao {
 
+<<<<<<< HEAD
     @Query("SELECT * FROM list_table")
     suspend fun getAll(): Flow<ListEntity>
 
     @Query("SELECT * FROM list_table WHERE id = :listId")
     suspend fun getListId(listId: Int): ListEntity
+=======
+    @Query("SELECT * FROM `list_table`")
+    abstract fun getAll(): Flow<List<ListEntity>>
+
+    @Query("SELECT * FROM 'list_table' WHERE listId = :listId")
+    abstract fun getListId(listId: Int): Flow<ListEntity>
+>>>>>>> ef376b2c1a92064e52d3931d31d09a66aeaa2524
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertList(list: ListEntity)
+    abstract suspend fun insertList(list: ListEntity)
 
     @Update
-    suspend fun updateList(list: ListEntity)
+    abstract suspend fun updateList(list: ListEntity)
 
     @Delete
-    suspend fun deleteList(list: ListEntity)
+    abstract suspend fun deleteList(list: ListEntity)
 
-
+    @Query("DELETE FROM `list_table`")
+    suspend fun deleteAllLists() {
+    }
 }
