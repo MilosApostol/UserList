@@ -28,6 +28,8 @@ abstract class ListDao {
     abstract suspend fun deleteList(list: ListEntity)
 
     @Query("DELETE FROM `list_table`")
-    suspend fun deleteAllLists() {
-    }
+    abstract  fun deleteAllLists()
+
+    @Query("SELECT * FROM `list_table` WHERE listCreatorId = :userId")
+    abstract fun getListsByUserId(userId: Int): Flow<List<ListEntity>>
 }

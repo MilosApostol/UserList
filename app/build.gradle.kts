@@ -67,6 +67,8 @@ kapt {
 
 dependencies {
     implementation("androidx.media3:media3-common:1.1.1")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.0")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     val room_version = "2.6.0"
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("androidx.compose.material:material")

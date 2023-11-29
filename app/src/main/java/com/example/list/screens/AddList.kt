@@ -28,28 +28,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.list.Screen
 import com.example.list.data.ListEntity
 import com.example.list.data.ListViewModel
+import com.example.list.navigation.Screen
+import com.example.list.userdata.UserViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddList(id: Int, navController: NavController, listViewModel: ListViewModel = hiltViewModel()) {
+fun AddList(
+    id: Int, navController: NavController,
+    listViewModel: ListViewModel = hiltViewModel(),
+) {
     val context = LocalContext.current
     var listName by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
 
     if (id != 0) { // editting/adding the details to the add screen
         val list = listViewModel.getListById(id).collectAsState(initial = ListEntity(0, 0, ""))
-        listViewModel.listNameState = list.value.listName
-    } else {
-        listViewModel.listNameState = ""
+        listName = list.value.listName
     }
-
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(text = "AddListScreen") },
@@ -67,27 +67,25 @@ fun AddList(id: Int, navController: NavController, listViewModel: ListViewModel 
             ) {
                 ListNameTextField(
                     label = "ListName",
-                    value = listViewModel.listNameState,
-                    onValueChanged = { listViewModel.onListNameChanged(it) }
+                    value = listName,
+                    onValueChanged = { listName = it }
                 )
                 Button(
                     onClick = {
-                        if (listViewModel.listNameState.isNotEmpty()) {
+                        if (listName.isNotEmpty()) {
                             if (id != 0) {
                                 listViewModel.updateList(
                                     ListEntity(
                                         id = id,
-                                        listName = listViewModel.listNameState
+                                        listName = listName
                                     )
-
                                 )
                                 navController.navigate(Screen.DrawerScreen.List.route)
-
                                 isLoading = true
                             } else {
                                 listViewModel.addList(
                                     ListEntity(
-                                        listName = listViewModel.listNameState
+                                        listName = listName,
                                     )
                                 )
                                 navController.navigate(Screen.DrawerScreen.List.route)
@@ -109,14 +107,6 @@ fun AddList(id: Int, navController: NavController, listViewModel: ListViewModel 
         }
     }
 }
-
-@Preview
-@Composable
-fun preView() {
-    val navController = rememberNavController()
-    AddList(navController = navController, id = 0)
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListNameTextField(

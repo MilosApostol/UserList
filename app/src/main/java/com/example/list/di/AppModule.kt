@@ -5,8 +5,11 @@ import androidx.room.Room
 import com.example.list.data.AppDatabase
 import com.example.list.data.ListDao
 import com.example.list.data.ListRepository
+import com.example.list.loginout.UserSessionManager
 import com.example.list.userdata.UserDao
 import com.example.list.userdata.UserRepository
+import com.example.list.userlists.UserListsDao
+import com.example.list.userlists.UserListsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +35,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(dao: ListDao) = ListRepository(dao)
+    fun provideListRepository(dao: ListDao) = ListRepository(dao)
 
     @Provides
     @Singleton
@@ -40,5 +43,25 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesRepository(dao: UserDao) = UserRepository(dao)
+    fun providesUserRepository(dao: UserDao) =
+        UserRepository(dao)
+
+
+    @Provides
+    @Singleton
+    fun providesUserListsData(database: AppDatabase) = database.userWithListsDao()
+
+    @Provides
+    @Singleton
+    fun providesUserListRepository(
+        userWithLists: UserListsDao
+    ) =
+        UserListsRepository(userWithLists)
+
+    @Provides
+    @Singleton
+    fun providesUserSession(): UserSessionManager {
+        return UserSessionManager()
+    }
+    
 }

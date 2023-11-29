@@ -5,32 +5,49 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import javax.inject.Inject
 
 
 @Entity(tableName = "user_table")
 data class User(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "userId")
-    val userId: Int,
-    val name: String,
-    val password: String
+    var userId: Int? = null,
+    var name: String = "",
+    var password: String = "",
 )
 
 @Entity(tableName = "list_table")
 data class ListEntity(
     @ColumnInfo(name = "listCreatorId")
-    val listCreatorId: Int = 0,
+    var listCreatorId: Int? = null,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "listId")
-    val id: Int = 0,
+    var id: Int = 0,
     @ColumnInfo(name = "list_name")
     var listName: String
 )
 data class UserWithList(
     @Embedded val user: User,
     @Relation(
+        parentColumn = "id",
+        entityColumn = "itemId"
+    )
+    val list: List<ListEntity>
+)
+data class Items(
+    var itemId: String = "", // Unique identifier for Firebase
+    var itemCreatorId: Int = 0, // List identifier in Firebase
+    val itemName: String = ""
+)
+
+data class ListWithItem(
+    @Embedded val lists: List<ListEntity>,
+    @Relation(
         parentColumn = "userId",
         entityColumn = "listCreatorId"
     )
-    val list: List<ListEntity>
+    val items: List<Items>
 )
