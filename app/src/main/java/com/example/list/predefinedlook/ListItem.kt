@@ -1,6 +1,5 @@
 package com.example.list.predefinedlook
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.list.data.ListEntity
+import com.example.list.data.list.ListEntity
 
 @Composable
 fun ListItems(
@@ -88,10 +87,3 @@ fun ListItems(
     }
 }
 
-@Preview
-@Composable
-fun PreviewItem() {
-    ListItems(list = ListEntity(listName = "tuc")) {
-
-    }
-}

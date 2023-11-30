@@ -2,14 +2,14 @@ package com.example.list.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.list.data.AppDatabase
-import com.example.list.data.ListDao
-import com.example.list.data.ListRepository
-import com.example.list.loginout.UserSessionManager
-import com.example.list.userdata.UserDao
-import com.example.list.userdata.UserRepository
-import com.example.list.userlists.UserListsDao
-import com.example.list.userlists.UserListsRepository
+import com.example.list.data.list.AppDatabase
+import com.example.list.data.list.ListDao
+import com.example.list.data.list.ListRepository
+import com.example.list.sessionmanager.UserSessionManager
+import com.example.list.data.userdata.UserDao
+import com.example.list.data.userdata.UserRepository
+import com.example.list.data.userlists.UserListsDao
+import com.example.list.data.userlists.UserListsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -35,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.list.R
-import com.example.list.data.User
+import com.example.list.data.userdata.User
+import com.example.list.data.userdata.UserViewModel
 import com.example.list.navigation.Screen
-import com.example.list.userdata.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

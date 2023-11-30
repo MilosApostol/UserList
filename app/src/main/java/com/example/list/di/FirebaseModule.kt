@@ -1,9 +1,8 @@
 package com.example.list.di
 
-import com.example.list.items.FirebaseData
-import com.example.list.items.ItemDataSource
-import com.example.list.loginout.ListSessionManager
-import com.google.firebase.database.FirebaseDatabase
+import com.example.list.sessionmanager.ListSessionManager
+import com.example.list.sessionmanager.UserSessionManager
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
@@ -11,15 +10,39 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
+
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun providesFireStoreInstance(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun providesListManager(): ListSessionManager {
+        return ListSessionManager()
+    }
+}
+
+    /*
 
     @Singleton
     @Provides
     fun provideFirebaseData(): FirebaseData {
         return FirebaseData(FirebaseDatabase.getInstance())
     }
+
+
 
     @Provides
     @Singleton
@@ -32,10 +55,12 @@ object FirebaseModule {
         return ItemDataSource(firebaseStorage.reference.child("items"))
     }
 
-    @Singleton
+
     @Provides
-    fun provideFirebaseStorage(): FirebaseStorage {
-        return FirebaseStorage.getInstance()
+    @Singleton
+    fun providesFirebaseRepository(): FirebaseRepository{
+        return FirebaseRepository()
     }
 
 }
+ */

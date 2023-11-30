@@ -37,7 +37,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.list.R
 import com.example.list.navigation.Screen
-import com.example.list.userdata.UserViewModel
+import com.example.list.data.userdata.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +51,7 @@ fun LogInScreen(
     val sharedPreferences = context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
     val userId = sharedPreferences.getInt("userID", 0)
     var checkIn = sharedPreferences.getBoolean("check", false)
-    if (userId != 0 && checkIn) {
+    if (userId != 0) {
         val setUser = userViewModel.setUserById(userId)
         navController.navigate(Screen.DrawerScreen.List.route)
 

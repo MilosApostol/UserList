@@ -15,6 +15,7 @@ sealed class Screen(
         data object UserListsScreen : DrawerScreen("UserListsScreen", "userList_route", R.drawable.ic_launcher_foreground)
         data object Add : DrawerScreen("AddScreen", "add_route", R.drawable.ic_add)
         data object ItemsScreen : DrawerScreen("ItemsScreen", "items_route", com.google.firebase.storage.R.drawable.common_full_open_on_phone)
+        data object AddItems : DrawerScreen("AddItems", "add_items", R.drawable.ic_add)
         data object Register :
             DrawerScreen(
                 "RegisterScreen",
@@ -32,7 +33,9 @@ val screensInDrawer = listOf(
     Screen.DrawerScreen.LogIn,
     Screen.DrawerScreen.Register,
     Screen.DrawerScreen.UserListsScreen,
-    Screen.DrawerScreen.ItemsScreen
+    Screen.DrawerScreen.ItemsScreen,
+    Screen.DrawerScreen.ItemsScreen,
+    Screen.DrawerScreen.AddItems
 )
 
 

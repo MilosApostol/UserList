@@ -25,15 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.list.data.ListEntity
-import com.example.list.data.ListViewModel
+import com.example.list.data.list.ListEntity
+import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
-import com.example.list.userdata.UserViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

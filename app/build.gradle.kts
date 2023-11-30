@@ -4,6 +4,8 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
   // id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
+    // id("com.google.devtools.ksp")
 }
 
 android {
@@ -69,10 +71,13 @@ dependencies {
     implementation("androidx.media3:media3-common:1.1.1")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.9.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.firebase:firebase-database:20.3.0")
     val room_version = "2.6.0"
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("androidx.compose.material:material")
-
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
