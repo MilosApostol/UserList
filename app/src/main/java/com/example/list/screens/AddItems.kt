@@ -44,14 +44,14 @@ fun AddItems(
         Button(onClick = {
             if (itemName.isNotEmpty()) {
                 val newItem = Items(
+                    itemId = UUID.randomUUID().toString(),
                     itemCreatorId = id,
                     itemName = itemName
                 )
-
                 addItem(newItem,
                     onSuccess = {
                         Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
-                        navController.navigate(Screen.DrawerScreen.ItemsScreen.route)
+                        navController.navigate(Screen.DrawerScreen.ItemsScreen.route + "/$id")
                     },
                     onFailure = {
                         Toast.makeText(context, "Failure: ", Toast.LENGTH_LONG).show()
@@ -77,4 +77,3 @@ fun addItem(item: Items, onSuccess: () -> Unit, onFailure: () -> Unit) {
             onFailure()
         }
 }
-

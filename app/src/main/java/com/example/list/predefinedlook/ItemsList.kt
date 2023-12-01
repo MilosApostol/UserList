@@ -21,15 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.list.data.items.Items
 import com.example.list.data.list.ListEntity
 
 @Composable
-fun ListItems(
-    list: ListEntity = ListEntity(listName = "", listCreatorId = 0),
-    modifier: Modifier = Modifier,
-    onRenameClick: () -> Unit = {},
-    onTextClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+fun ItemsList(
+    item: Items = Items(itemName = "aaaaaaa", itemId = "", itemCreatorId = 0),
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -48,47 +46,22 @@ fun ListItems(
                     .weight(1f)
                     .padding(end = 8.dp)
                     .clickable {
-                        onTextClick()
                     },
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
-                    text = list.listName,
+                    text = item.itemName,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-
-            Icon(
-                imageVector = Icons.Filled.DriveFileRenameOutline,
-                contentDescription = "Rename",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        onRenameClick()
-                    }
-            )
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = "Rename",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        onDeleteClick()
-                    }
-            )
-
-
         }
     }
 }
+
 @Preview
 @Composable
-fun items(){
-    ListItems()
+fun Items(){
+    ItemsList()
 }
 
