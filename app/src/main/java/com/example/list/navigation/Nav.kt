@@ -57,7 +57,8 @@ fun NavGraph(
             ItemsScreen(id = id, navController = navController)
         }
 
-        composable(Screen.DrawerScreen.AddItems.route + "/{id}",
+        composable(
+            Screen.DrawerScreen.AddItems.route + "/{id}",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.IntType
@@ -65,7 +66,7 @@ fun NavGraph(
                     nullable = false
                 })
         ) {
-            val id = if(it.arguments != null) it.arguments!!.getInt("id") else 0
+            val id = if (it.arguments != null) it.arguments!!.getInt("id") else 0
             AddItems(id = id, navController = navController)
         }
     }

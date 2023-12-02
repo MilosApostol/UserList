@@ -48,7 +48,7 @@ fun ListScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val currentRoute = navController.currentDestination?.route
-    val listById = userListsViewModel.getListsByUserId().collectAsState(initial = listOf())
+    val listById = userListsViewModel.getListsByUserId().collectAsState(initial = listOf()).value
 
     val userId = userListsViewModel.getUser().userId
     val sharedPreferences =
@@ -111,7 +111,7 @@ fun ListScreen(
         ) {
             // swipe to delete
             items(
-                listById.value
+                listById
             ) { list ->
                 ListItems(
                     list = list,

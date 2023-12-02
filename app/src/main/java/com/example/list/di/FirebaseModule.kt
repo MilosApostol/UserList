@@ -1,5 +1,7 @@
 package com.example.list.di
 
+import com.example.list.data.items.FirebaseRepository
+import com.example.list.data.items.FirebaseViewModel
 import com.example.list.sessionmanager.ListSessionManager
 import com.example.list.sessionmanager.UserSessionManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,35 +34,16 @@ object FirebaseModule {
     fun providesListManager(): ListSessionManager {
         return ListSessionManager()
     }
-}
-
-    /*
-
-    @Singleton
-    @Provides
-    fun provideFirebaseData(): FirebaseData {
-        return FirebaseData(FirebaseDatabase.getInstance())
-    }
-
-
 
     @Provides
     @Singleton
-    fun providesListSession(): ListSessionManager {
-        return ListSessionManager()
-    }
-    @Provides
-    @Singleton
-    fun provideItemDataSource(firebaseStorage: FirebaseStorage): ItemDataSource {
-        return ItemDataSource(firebaseStorage.reference.child("items"))
-    }
-
-
-    @Provides
-    @Singleton
-    fun providesFirebaseRepository(): FirebaseRepository{
+    fun provideItemsRepository(): FirebaseRepository {
         return FirebaseRepository()
     }
 
+    @Provides
+    @Singleton
+    fun provideFirebaseViewModel(repository: FirebaseRepository): FirebaseViewModel {
+        return FirebaseViewModel(repository)
+    }
 }
- */
