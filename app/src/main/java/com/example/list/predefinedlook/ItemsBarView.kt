@@ -23,7 +23,6 @@ import com.example.list.R
 @Composable
 fun ItemsBarView(
     title: String,
-    onBackClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -45,7 +44,6 @@ fun ItemsBarView(
                 contentDescription = null,
                 tint = MaterialTheme.colors.onSurface
             )
-            onBackClicked()
         },
     )
 }
@@ -53,5 +51,5 @@ fun ItemsBarView(
 @Preview
 @Composable
 fun BarShow() {
-    ItemsBarView(title = "items", onBackClicked = { /*TODO*/ })
+    ItemsBarView(title = "items")
 }

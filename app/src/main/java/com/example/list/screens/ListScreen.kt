@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.list.R
+import com.example.list.data.items.FirebaseViewModel
 import com.example.list.data.list.ListViewModel
 import com.example.list.data.userdata.UserViewModel
 import com.example.list.data.userlists.UserListsViewModel
@@ -42,7 +43,8 @@ fun ListScreen(
     navController: NavController = rememberNavController(),
     listViewModel: ListViewModel = hiltViewModel(),
     userListsViewModel: UserListsViewModel = hiltViewModel(),
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    firebaseViewModel: FirebaseViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -115,7 +117,8 @@ fun ListScreen(
             ) { list ->
                 ListItems(
                     list = list,
-                    onDeleteClick = { listViewModel.removeList(list) },
+                    onDeleteClick = { listViewModel.removeList(list)
+                                    firebaseViewModel.removeAll(list.id.toString())},
                     onRenameClick = {
                         val id = list.id
                         navController.navigate(Screen.DrawerScreen.Add.route + "/$id")

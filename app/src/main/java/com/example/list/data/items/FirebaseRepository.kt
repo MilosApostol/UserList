@@ -36,7 +36,7 @@ class FirebaseRepository {
         return _itemsFlow
     }
 
-     fun fetchData() {
+    fun fetchData() {
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val itemsList = mutableListOf<Items>()
@@ -64,5 +64,25 @@ class FirebaseRepository {
 
     fun cancelFetch() {
         job?.cancel()
+    }
+
+    fun removeItem(itemId: String) {
+        databaseReference.child(itemId).removeValue()
+    }
+
+    fun removeItems(itemCreatorId: String) {
+        val query = databaseReference.orderByChild("itemCreatorId")
+            .equalTo(itemCreatorId)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (itemSnapshot in snapshot.children) {
+                    itemSnapshot.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 }
