@@ -28,6 +28,7 @@ import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
 import com.example.list.predefinedlook.AppBarView
+import com.example.list.predefinedlook.ItemsList
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import com.google.firebase.firestore.firestore
@@ -85,7 +86,7 @@ fun ItemsScreen(
             items(
                 items
             ) { item ->
-                Text(text = item.itemName)
+                ItemsList(item)
             }
 
         }

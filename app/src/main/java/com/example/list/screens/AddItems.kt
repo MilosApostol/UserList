@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,23 +23,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.list.Constants
 import com.example.list.data.items.Items
 import com.example.list.navigation.Screen
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.firestore
 import java.util.UUID
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddItems(
     id: Int,
     navController: NavController = rememberNavController(),
 ) {
     var itemName by remember { mutableStateOf("") }
-
     val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -64,7 +62,8 @@ fun AddItems(
 
 
 fun saveData(itemName: String, id: Int, navController: NavController) {
-    val db = FirebaseDatabase.getInstance()
+
+    val db = Firebase.database
     val ref = db.getReference(Constants.Items)
     val itemsRef = ref.child("items")
     val newItem = Items(
@@ -72,9 +71,7 @@ fun saveData(itemName: String, id: Int, navController: NavController) {
         itemId = UUID.randomUUID().toString(),
         itemCreatorId = id.toString()
     )
-    val newItemRef = itemsRef.push()
-
-    newItemRef.setValue(newItem).addOnCompleteListener {
+    ref.child(newItem.itemId).setValue(newItem).addOnCompleteListener {
         navController.navigate(Screen.DrawerScreen.ItemsScreen.route + "/$id")
 
     }.addOnFailureListener {

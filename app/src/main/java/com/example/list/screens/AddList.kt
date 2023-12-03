@@ -15,6 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,6 +32,8 @@ import androidx.navigation.NavController
 import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +45,6 @@ fun AddList(
     val context = LocalContext.current
     var listName by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
-
     if (id != 0) { // editting/adding the details to the add screen
         val list = listViewModel.getListById(id).collectAsState(initial = ListEntity(0, 0, ""))
         listName = list.value.listName
@@ -104,6 +106,7 @@ fun AddList(
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListNameTextField(
