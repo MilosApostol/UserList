@@ -1,13 +1,6 @@
 package com.example.list.navigation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,6 +14,11 @@ import com.example.list.screens.ItemsScreen
 import com.example.list.screens.ListScreen
 import com.example.list.screens.LogInScreen
 import com.example.list.screens.RegisterScreen
+import com.example.list.screens.SplashScreen
+
+object Graph {
+    const val AUTH = "auth_graph"
+}
 
 @Composable
 fun NavGraph(
@@ -28,22 +26,26 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Graph.AUTH // Start destination is the nested graph, not LogInScreen
+        startDestination = Screens.SplashScreen.name,
     ) {
+        composable(Screens.SplashScreen.name){
+            SplashScreen(navController = navController)
+        }
         navigation(
+            route = Graph.AUTH,
             startDestination = Screens.LogInScreen.name,
-            route = Graph.AUTH
         ) {
             composable(Screens.LogInScreen.name) {
                 LogInScreen(navController = navController)
             }
+            composable(Screens.RegisterScreen.name) {
+                RegisterScreen(navController = navController)
+            }
         }
-        composable(Screens.RegisterScreen.name) {
-            RegisterScreen(navController = navController)
-        }
+
         composable(
             Screen.DrawerScreen.List.route
-        ) {
+        ){
             ListScreen(navController = navController)
         }
         composable(
@@ -84,3 +86,4 @@ fun NavGraph(
         }
     }
 }
+

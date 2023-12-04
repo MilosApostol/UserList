@@ -75,6 +75,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx:24.9.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     val room_version = "2.6.0"
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("androidx.compose.material:material")

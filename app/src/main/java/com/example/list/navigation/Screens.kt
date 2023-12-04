@@ -6,11 +6,10 @@ import com.example.list.R
 
 enum class Screens{
     AddItems,
-    AddList,
     ItemsScreen,
-    ListScreen,
     LogInScreen,
-    RegisterScreen
+    RegisterScreen,
+    SplashScreen
 }
 
 sealed class Screen(

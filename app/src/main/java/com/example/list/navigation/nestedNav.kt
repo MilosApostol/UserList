@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.list.screens.LogInScreen
-
+/*
 
 object Graph {
     const val AUTH = "auth_graph"
@@ -58,3 +58,5 @@ fun NestedNav(
 
     }
 }
+
+ */

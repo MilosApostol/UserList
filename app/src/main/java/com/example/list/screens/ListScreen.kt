@@ -54,7 +54,7 @@ fun ListScreen(
     val scope = rememberCoroutineScope()
     val currentRoute = navController.currentDestination?.route
     val listById = userListsViewModel.getListsByUserId().collectAsState(initial = listOf()).value
-
+    var id = 0
     val userId = userListsViewModel.getUser()?.userId
     val sharedPreferences =
         context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
@@ -82,15 +82,15 @@ fun ListScreen(
                         userViewModel.logout()
                         val editor = sharedPreferences.edit().apply {
                             if (checkIn) {
-                                    checkIn = false
-                                    putInt("userID", 0)
-                                }
-                                apply()
+                                checkIn = false
+                                putInt("userID", 0)
                             }
+                            apply()
+                        }
                         navController.navigate(Screens.LogInScreen.name)
                     }
-                }
-            )
+                })
+
             Toast.makeText(context, "$checkIn", Toast.LENGTH_LONG).show()
             if (checkIn) {
                 val editor = sharedPreferences.edit().apply {
@@ -104,7 +104,6 @@ fun ListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    val id = 0
                     navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
                 },
             ) {
@@ -117,7 +116,11 @@ fun ListScreen(
                         scope.launch {
                             scaffoldState.drawerState.close()
                         }
-                        navController.navigate(item.dRoute)
+                        if (item.dRoute == Screen.DrawerScreen.Add.route) {
+                            navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
+                        } else {
+                            navController.navigate(item.dRoute)
+                        }
                     }
                 }
             }

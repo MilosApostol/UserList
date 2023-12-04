@@ -45,6 +45,7 @@ import com.example.list.R
 import com.example.list.data.userdata.User
 import com.example.list.data.userdata.UserViewModel
 import com.example.list.navigation.Screen
+import com.example.list.navigation.Screens
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -123,7 +124,11 @@ fun RegisterScreen(
                             val user = User(name = name, password = password)
                             val success = userViewModel.insertUser(user)
                             if (success) {
-                                navController.navigate(Screen.DrawerScreen.List.route)
+                                navController.navigate(Screen.DrawerScreen.List.route) {
+                                    popUpTo("auth") {
+                                        inclusive = true
+                                    }
+                                }
                             } else {
                                 Toast.makeText(
                                     context,

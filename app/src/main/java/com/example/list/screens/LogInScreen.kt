@@ -48,7 +48,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.list.R
 import com.example.list.navigation.Screen
 import com.example.list.data.userdata.UserViewModel
-import com.example.list.navigation.Graph
 import com.example.list.navigation.Screens
 import kotlinx.coroutines.launch
 
@@ -67,7 +66,6 @@ fun LogInScreen(
     if (userId != 0) {
         val setUser = userViewModel.setUserById(userId)
         navController.navigate(Screen.DrawerScreen.List.route)
-
     } else {
         var check by remember { mutableStateOf(false) }
         var name by remember { mutableStateOf("") }
@@ -95,7 +93,7 @@ fun LogInScreen(
                     ) {
                         TextField(
                             value = name,
-                            onValueChange = { name = it },
+                            onValueChange = { name = it.trim() },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 50.dp),
@@ -105,7 +103,7 @@ fun LogInScreen(
                         TextField(modifier = Modifier.fillMaxWidth(),
                             value = password,
                             onValueChange = {
-                                password = it
+                                password = it.trim()
                             },
                             label = { Text("Password") },
                             visualTransformation = if (passwordVisible) VisualTransformation.None
@@ -140,8 +138,8 @@ fun LogInScreen(
                                 scope.launch {
                                     val user = userViewModel.login(name, password)
                                     if (user) {
-                                        navController.navigate(Screens.ListScreen.name) {
-                                            popUpTo(Graph.AUTH) {
+                                        navController.navigate(Screen.DrawerScreen.List.route) {
+                                            popUpTo("auth") {
                                                 inclusive = true
                                             }
                                             Toast.makeText(
