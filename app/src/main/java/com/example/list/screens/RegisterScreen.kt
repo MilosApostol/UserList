@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Scaffold
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,6 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -46,27 +53,26 @@ fun RegisterScreen(
     navController: NavHostController,
     userViewModel: UserViewModel = hiltViewModel(),
 ) {
-    var email by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     var check by remember { mutableStateOf(false) }
-    val sharedPreferences = context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(
+        stringResource(R.string.app_prefs), Context.MODE_PRIVATE
+    )
+
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        TopAppBar(
-            title = { Text("RegisterScreen") },
-            navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Menu")
-                }
+        TopAppBar(title = { Text("RegisterScreen") }, navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Menu")
             }
-        )
+        })
         Scaffold(
-            modifier = Modifier
-                .fillMaxSize(),
-        )
-        { padding ->
+            modifier = Modifier.fillMaxSize(),
+        ) { padding ->
             Card(
                 modifier = Modifier
                     .fillMaxSize()
@@ -77,32 +83,44 @@ fun RegisterScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     OutlinedTextField(
-                        value = email,
-                        onValueChange = { email = it },
+                        value = name,
+                        onValueChange = { name = it },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 50.dp),
                         label = { Text("Email") },
                     )
-                    OutlinedTextField(
+                    TextField(modifier = Modifier.fillMaxWidth(),
                         value = password,
-                        onValueChange = { password = it },
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        label = { Text("password") },
-                    )
-                    Checkbox(
-                        checked = check, onCheckedChange = {
-                            check = it
-                            val editor = sharedPreferences.edit().apply {
-                                putBoolean("checked", check)
-                                apply()
+                        onValueChange = {
+                            password = it
+                        },
+                        label = { Text("Password") },
+                        visualTransformation = if (passwordVisible) VisualTransformation.None
+                        else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                        trailingIcon = {
+                            IconButton(
+                                onClick = { passwordVisible = !passwordVisible },
+                                modifier = Modifier.padding(end = 8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = if (passwordVisible) Icons.Default.VisibilityOff
+                                    else Icons.Default.Visibility,
+                                    contentDescription = "Toggle password visibility"
+                                )
                             }
+                        })
+                    Checkbox(checked = check, onCheckedChange = {
+                        check = it
+                        val editor = sharedPreferences.edit().apply {
+                            putBoolean("checked", check)
+                            apply()
                         }
-                    )
+                    })
                     Button(onClick = {
                         scope.launch {
-                            val user = User(name = email, password = password)
+                            val user = User(name = name, password = password)
                             val success = userViewModel.insertUser(user)
                             if (success) {
                                 navController.navigate(Screen.DrawerScreen.List.route)

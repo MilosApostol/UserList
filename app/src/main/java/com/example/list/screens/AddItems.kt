@@ -4,11 +4,17 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.list.Constants
 import com.example.list.data.items.Items
 import com.example.list.navigation.Screen
+import com.example.list.navigation.Screens
 import com.google.firebase.Firebase
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
@@ -37,6 +44,13 @@ fun AddItems(
 ) {
     var itemName by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    TopAppBar(title = { "AddItems" }, modifier = Modifier.fillMaxWidth(),
+        navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Menu")
+            }
+        })
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,7 +74,6 @@ fun AddItems(
     }
 }
 
-
 fun saveData(itemName: String, id: Int, navController: NavController) {
 
     val db = Firebase.database
@@ -72,18 +85,15 @@ fun saveData(itemName: String, id: Int, navController: NavController) {
         itemCreatorId = id.toString()
     )
     ref.child(newItem.itemId).setValue(newItem).addOnCompleteListener {
-        navController.navigate(Screen.DrawerScreen.ItemsScreen.route + "/$id")
+        navController.navigate(Screens.ItemsScreen.name + "/$id"){
+            popUpTo(Screens.AddItems.name + "$id"){
+                inclusive = true
+            }
+        }
+
 
     }.addOnFailureListener {
 
     }
 
-}
-
-
-fun realtimeItem(items: Items) {
-    val database = Firebase.database
-    val myRef = database.getReference(Constants.Items)
-
-    myRef.setValue(items)
 }

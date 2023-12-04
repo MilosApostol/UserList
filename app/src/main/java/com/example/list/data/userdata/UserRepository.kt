@@ -1,10 +1,12 @@
 package com.example.list.data.userdata
 
+import com.example.list.sessionmanager.UserSessionManager
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val userSessionManager: UserSessionManager
 ) {
 
     suspend fun insertUser(user: User) {
@@ -41,6 +43,6 @@ class UserRepository @Inject constructor(
     }
 
     suspend fun logout() {
-       //userSessionManager.clearSession()
+       userSessionManager.logout()
     }
 }

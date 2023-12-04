@@ -43,8 +43,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesUserRepository(dao: UserDao) =
-        UserRepository(dao)
+    fun providesUserRepository(dao: UserDao, userSessionManager: UserSessionManager) =
+        UserRepository(dao, userSessionManager)
 
 
     @Provides

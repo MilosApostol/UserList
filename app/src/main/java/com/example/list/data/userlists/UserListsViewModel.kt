@@ -20,7 +20,7 @@ class UserListsViewModel @Inject constructor(
             ?: emptyFlow()
     }
 
-    fun getUser(): User {
-        return userSessionManager.getUser()!!
+    fun getUser(): User? {
+        return userSessionManager.getUser()
     }
 }

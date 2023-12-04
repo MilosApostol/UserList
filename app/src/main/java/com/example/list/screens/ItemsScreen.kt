@@ -47,6 +47,7 @@ import com.example.list.data.items.Items
 import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
+import com.example.list.navigation.Screens
 import com.example.list.predefinedlook.AppBarView
 import com.example.list.predefinedlook.ItemsBarView
 import com.example.list.predefinedlook.ItemsList
@@ -69,7 +70,8 @@ fun ItemsScreen(
 
     val items = itemsFlow.collectAsState(emptyList()).value
     val context = LocalContext.current
-    val list = listViewModel.getListById(id).collectAsState(initial = ListEntity(0, 0, "")).value
+    val list = listViewModel.getListById(id)
+        .collectAsState(initial = ListEntity(0, 0, "")).value
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
@@ -86,7 +88,7 @@ fun ItemsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screen.DrawerScreen.AddItems.route + "/$id")
+                    navController.navigate(Screens.AddItems.name + "/$id")
                 },
             ) {
                 Icon(Icons.Filled.Add, "Add List")
@@ -144,7 +146,9 @@ fun ItemsScreen(
                         if (item.itemCreatorId == id.toString()) {
                             ItemsList(item = item)
                         } else {
-                            Box(modifier = Modifier.width(0.dp).height(0.dp))
+                            Box(modifier = Modifier
+                                .width(0.dp)
+                                .height(0.dp))
 
                         }
                     })

@@ -1,12 +1,20 @@
 package com.example.list.navigation
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.example.list.screens.AddItems
 import com.example.list.screens.AddList
 import com.example.list.screens.ItemsScreen
@@ -20,15 +28,23 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.DrawerScreen.LogIn.route
+        startDestination = Graph.AUTH // Start destination is the nested graph, not LogInScreen
     ) {
+        navigation(
+            startDestination = Screens.LogInScreen.name,
+            route = Graph.AUTH
+        ) {
+            composable(Screens.LogInScreen.name) {
+                LogInScreen(navController = navController)
+            }
+        }
+        composable(Screens.RegisterScreen.name) {
+            RegisterScreen(navController = navController)
+        }
         composable(
             Screen.DrawerScreen.List.route
         ) {
             ListScreen(navController = navController)
-        }
-        composable(Screen.DrawerScreen.LogIn.route) {
-            LogInScreen(navController = navController)
         }
         composable(
             Screen.DrawerScreen.Add.route + "/{id}",
@@ -41,11 +57,8 @@ fun NavGraph(
             val id = if (it.arguments != null) it.arguments!!.getInt("id") else 0
             AddList(id = id, navController = navController)
         }
-        composable(Screen.DrawerScreen.Register.route) {
-            RegisterScreen(navController = navController)
-        }
         composable(
-            Screen.DrawerScreen.ItemsScreen.route + "/{id}",
+            Screens.ItemsScreen.name + "/{id}",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.IntType
@@ -58,7 +71,7 @@ fun NavGraph(
         }
 
         composable(
-            Screen.DrawerScreen.AddItems.route + "/{id}",
+            Screens.AddItems.name + "/{id}",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.IntType

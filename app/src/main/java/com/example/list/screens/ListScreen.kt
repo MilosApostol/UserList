@@ -1,6 +1,8 @@
 package com.example.list.screens
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +33,7 @@ import com.example.list.data.list.ListViewModel
 import com.example.list.data.userdata.UserViewModel
 import com.example.list.data.userlists.UserListsViewModel
 import com.example.list.navigation.Screen
+import com.example.list.navigation.Screens
 import com.example.list.navigation.screensInDrawer
 import com.example.list.predefinedlook.AppBarView
 import com.example.list.predefinedlook.DrawerItem
@@ -52,17 +55,10 @@ fun ListScreen(
     val currentRoute = navController.currentDestination?.route
     val listById = userListsViewModel.getListsByUserId().collectAsState(initial = listOf()).value
 
-    val userId = userListsViewModel.getUser().userId
+    val userId = userListsViewModel.getUser()?.userId
     val sharedPreferences =
         context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
-    val checkIn = sharedPreferences.getBoolean("checked", false)
-
-    if (checkIn) {
-        val editor = sharedPreferences.edit().apply {
-            putInt("userID", userId!!)
-            apply()
-        }
-    }
+    var checkIn = sharedPreferences.getBoolean("checked", false)
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -78,11 +74,32 @@ fun ListScreen(
                 },
                 onDeleteNavClicked = {
                     scope.launch {
-                        //Todo not working
                         listViewModel.deleteAllLists()
+                    }
+                },
+                onLogoutClicked = {
+                    scope.launch {
+                        userViewModel.logout()
+                        val editor = sharedPreferences.edit().apply {
+                            if (checkIn) {
+                                    checkIn = false
+                                    putInt("userID", 0)
+                                }
+                                apply()
+                            }
+                        navController.navigate(Screens.LogInScreen.name)
                     }
                 }
             )
+            Toast.makeText(context, "$checkIn", Toast.LENGTH_LONG).show()
+            if (checkIn) {
+                val editor = sharedPreferences.edit().apply {
+                    if (userId != null) {
+                        putInt("userID", userId)
+                    }
+                    apply()
+                }
+            }
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -111,21 +128,22 @@ fun ListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // swipe to delete
             items(
                 listById
             ) { list ->
                 ListItems(
                     list = list,
-                    onDeleteClick = { listViewModel.removeList(list)
-                                    firebaseViewModel.removeAll(list.id.toString())},
+                    onDeleteClick = {
+                        listViewModel.removeList(list)
+                        firebaseViewModel.removeAll(list.id.toString())
+                    },
                     onRenameClick = {
                         val id = list.id
                         navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
                     },
                     onTextClick = {
                         val id = list.id
-                        navController.navigate(Screen.DrawerScreen.ItemsScreen.route + "/$id")
+                        navController.navigate(Screens.ItemsScreen.name + "/$id")
                     }
 
                 )

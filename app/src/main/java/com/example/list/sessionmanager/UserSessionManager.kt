@@ -27,5 +27,9 @@ class UserSessionManager{
     fun clearSession() {
         // Clear any session-related data
         setUserLoggedIn(false)
+        currentUser = null
+    }
+    fun logout(){
+        clearSession()
     }
 }

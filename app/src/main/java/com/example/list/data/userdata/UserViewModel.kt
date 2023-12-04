@@ -33,6 +33,7 @@ class UserViewModel @Inject constructor(
             val existingUser = userRepository.getUserName(user.name)
             if (existingUser == null) {
                 userRepository.insertUser(user)
+                userSessionManager.setUserLoggedIn(true)
                 userSessionManager.setUser(getUserByUsername(user.name))
                 true
             } else {
@@ -52,9 +53,11 @@ class UserViewModel @Inject constructor(
         return withContext(Dispatchers.IO) {
             val user = userRepository.getUserName(name)
             if (user != null) {
+                userSessionManager.setUserLoggedIn(true)
                 userSessionManager.setUser(user = user)
             }
             user?.let {
+                userSessionManager.setUserLoggedIn(true)
                 return@withContext it.password == password
             }
             return@withContext false
@@ -64,7 +67,7 @@ class UserViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             userRepository.logout()
-            //    session.clearSession()
+            userSessionManager.logout()
         }
     }
 }
