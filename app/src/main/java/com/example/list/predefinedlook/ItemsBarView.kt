@@ -26,16 +26,16 @@ fun ItemsBarView(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = {
-            Text(
-                text = title,
-                style = TextStyle(
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+            title = {
+                Text(
+                    text = title,
+                    style = TextStyle(
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-            )
-        },
+            },
         backgroundColor = colorResource(id = R.color.purple_200),
         elevation = 4.dp,
         navigationIcon = {
