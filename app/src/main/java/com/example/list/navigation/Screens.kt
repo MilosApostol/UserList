@@ -9,7 +9,8 @@ enum class Screens{
     ItemsScreen,
     LogInScreen,
     RegisterScreen,
-    SplashScreen
+    SplashScreen,
+    AddItemsSearch
 }
 
 sealed class Screen(

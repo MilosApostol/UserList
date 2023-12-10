@@ -2,6 +2,7 @@ package com.example.list.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.list.data.additems.CountryRepository
 import com.example.list.data.list.AppDatabase
 import com.example.list.data.list.ListDao
 import com.example.list.data.list.ListRepository
@@ -63,5 +64,11 @@ class AppModule {
     fun providesUserSession(): UserSessionManager {
         return UserSessionManager()
     }
-    
+
+    @Provides
+    @Singleton
+    fun providesAddItemsRepository(): CountryRepository {
+        return CountryRepository()
+    }
 }
+

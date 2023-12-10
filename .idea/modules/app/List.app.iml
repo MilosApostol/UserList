@@ -19,20 +19,6 @@
       </configuration>
     </facet>
   </component>
-  <component name="ModuleClassLoaderOverlays">
-    <paths>
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay1341921619340415789" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay5782567320127317555" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay14570297116391623308" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay14570297116391623308" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay5327651345144609626" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay14285657013363138080" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay17288052497119999789" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay11240413442375792212" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay1048358651373415549" />
-      <option value="C:\Users\milos\AppData\Local\Temp\overlay7400143004591831010" />
-    </paths>
-  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../app">

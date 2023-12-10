@@ -88,7 +88,8 @@ fun ItemsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screens.AddItems.name + "/$id")
+           //         navController.navigate(Screens.AddItems.name + "/$id")
+                          navController.navigate(Screens.AddItemsSearch.name)
                 },
             ) {
                 Icon(Icons.Filled.Add, "Add List")

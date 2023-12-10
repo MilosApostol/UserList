@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.list.screens.AddItems
+import com.example.list.screens.AddItemsSearch
 import com.example.list.screens.AddList
 import com.example.list.screens.ItemsScreen
 import com.example.list.screens.ListScreen
@@ -28,7 +29,7 @@ fun NavGraph(
         navController = navController,
         startDestination = Screens.SplashScreen.name,
     ) {
-        composable(Screens.SplashScreen.name){
+        composable(Screens.SplashScreen.name) {
             SplashScreen(navController = navController)
         }
         navigation(
@@ -45,7 +46,7 @@ fun NavGraph(
 
         composable(
             Screen.DrawerScreen.List.route
-        ){
+        ) {
             ListScreen(navController = navController)
         }
         composable(
@@ -83,6 +84,11 @@ fun NavGraph(
         ) {
             val id = if (it.arguments != null) it.arguments!!.getInt("id") else 0
             AddItems(id = id, navController = navController)
+        }
+
+
+        composable(Screens.AddItemsSearch.name) {
+            AddItemsSearch()
         }
     }
 }
