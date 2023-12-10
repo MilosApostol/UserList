@@ -68,6 +68,7 @@ kapt {
 
 
 dependencies {
+    implementation("com.google.android.gms:play-services-cronet:18.0.1")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
@@ -149,5 +150,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+
 }
 

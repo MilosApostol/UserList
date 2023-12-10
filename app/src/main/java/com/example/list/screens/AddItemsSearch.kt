@@ -19,9 +19,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,8 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.list.data.additems.AddItemsViewModel
+import com.example.list.data.api.ApiData
+import com.example.list.data.api.ApiRepository
+import com.example.list.data.api.MyData
 import javax.inject.Inject
-
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +46,12 @@ import javax.inject.Inject
 fun AddItemsSearch(addItemsViewModel: AddItemsViewModel = hiltViewModel()) {
     var text by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
-    val countriesList by addItemsViewModel.countries.collectAsState(listOf())
+    var jsonData by remember { mutableStateOf<String?>(null) }
 
+    LaunchedEffect(true) {
+        val data = ApiRepository.fetchData()
+        jsonData = data
+    }
 
     Box(
         Modifier
@@ -77,17 +85,25 @@ fun AddItemsSearch(addItemsViewModel: AddItemsViewModel = hiltViewModel()) {
                         .padding(horizontal = 16.dp, vertical = 4.dp))
             }
         }
+        jsonData?.let { json ->
+            val dataList: List<MyData> = ApiData.parseJson(json)
 
-        LazyColumn(
-            contentPadding = PaddingValues(start = 16.dp, top = 72.dp, end = 16.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(countriesList) { country ->
-                Text(
-                    text = "$country", modifier = Modifier.padding(
-                        start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp
+            LazyColumn(
+                contentPadding = PaddingValues(
+                    start = 16.dp,
+                    top = 72.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(dataList) { item ->
+                    Text(
+                        text = item.name, modifier = Modifier.padding(
+                            start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp
+                        )
                     )
-                )
+                }
             }
         }
     }
