@@ -1,20 +1,16 @@
 package com.example.list.data.api
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class ApiViewModel: ViewModel() {
+@HiltViewModel
+class CountryViewModel(private val getCountriesUseCase: GetCountriesUseCase) : ViewModel() {
+    private val _country = MutableStateFlow(emptyList<MyData>())
+    val country: StateFlow<List<MyData>> = _country
 
-    init {
-        fetchData()
-    }
-
-    private fun fetchData(){
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = ApiRepository.fetchData()
-            val dataList = ApiData.parseJson(data)
-        }
+    suspend fun getCountry() {
+        _country.value = getCountriesUseCase()
     }
 }

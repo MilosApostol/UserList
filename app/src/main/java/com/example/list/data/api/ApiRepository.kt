@@ -1,34 +1,46 @@
 package com.example.list.data.api
 
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.awaitResponse
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-//The use of object instead of class for ApiRepository in the example denotes a singleton pattern,
-// appropriate for a stateless repository with functions mainly for data retrieval, simplifying usage without the need for multiple instances.
-object ApiRepository {
-    suspend fun fetchData(): String {
-        return withContext(Dispatchers.IO) {
-            val url = URL("https://run.mocky.io/v3/6c347c00-6bbf-480b-b044-d5a2bb99293b")
-            val connection = url.openConnection() as HttpURLConnection
+object ApiConstants {
+    const val BASE_URL = "https://run.mocky.io/"
+    const val API_ENDPOINT = "v3/6c347c00-6bbf-480b-b044-d5a2bb99293b/"
+}
 
-            return@withContext try {
-                val inputStream = connection.inputStream
-                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-                val stringBuilder = StringBuilder()
+interface CountryApiService{
+    @GET(ApiConstants.API_ENDPOINT)
+    suspend fun getCountries(): List<MyData>
 
-                var line: String?
-                while (bufferedReader.readLine().also { line = it } != null) {
-                    stringBuilder.append(line)
-                }
+    @GET(ApiConstants.API_ENDPOINT)
+    suspend fun searchCountries(@Query("search") query: String): List<MyData>
 
-                stringBuilder.toString()
-            } finally {
-                connection.disconnect()
-            }
-        }
+}
+
+object RetrofitClient {
+    private const val BASE_URL = ApiConstants.BASE_URL
+
+    val gson = GsonBuilder().setLenient().create()
+    val retrofit = Retrofit.Builder()
+        .baseUrl(ApiConstants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
+}
+
+object ApiClient {
+    val apiService: CountryApiService by lazy {
+        RetrofitClient.retrofit.create(CountryApiService::class.java)
     }
 }
