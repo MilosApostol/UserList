@@ -16,7 +16,7 @@ class UserViewModel @Inject constructor(
     private val userSessionManager: UserSessionManager,
 ) : ViewModel() {
 
-    lateinit var getAllUsers: Flow<List<User>>
+    private lateinit var getAllUsers: Flow<List<User>>
 
     init {
         viewModelScope.launch {

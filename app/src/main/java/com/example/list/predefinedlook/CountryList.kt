@@ -10,14 +10,13 @@ import androidx.compose.ui.unit.dp
 import com.example.list.data.api.MyData
 
 @Composable
-fun CountryList(countries: List<MyData>) {
-
+fun CountryList(countries: List<MyData>, onItemClick: (MyData) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(countries) { item ->
-            Text(text = item.name)
+        items(items = countries, key = { country -> country.code }) { country ->
+          //  CountryCard(item = country, onClick = { onItemClick(country) })
         }
     }
 }

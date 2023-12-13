@@ -7,11 +7,7 @@ import retrofit2.http.Path
 
 data class MyData(
     @SerializedName("name")
-    val name: String,
+    var name: String,
     @SerializedName("code")
-    val code: String
-)
-data class Name(
-    @SerializedName("common")
-    val common: String
+    var code: String
 )

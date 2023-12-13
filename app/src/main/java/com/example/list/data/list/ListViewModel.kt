@@ -16,8 +16,6 @@ class ListViewModel @Inject constructor(
     private val userSession: UserSessionManager
 ) : ViewModel() {
 
-    private val _lists = mutableStateListOf<ListEntity>()
-    val lists: List<ListEntity> get() = _lists
     fun addList(list: ListEntity) {
         list.listCreatorId = userSession.getUserId()!!
         viewModelScope.launch(Dispatchers.IO) {

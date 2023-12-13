@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+/*
 @HiltViewModel
 class AddItemsViewModel @Inject constructor(
     private val countryRepository: CountryRepository
@@ -36,3 +37,5 @@ class AddItemsViewModel @Inject constructor(
         }
     }
 }
+
+ */

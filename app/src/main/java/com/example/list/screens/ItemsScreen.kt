@@ -104,7 +104,7 @@ fun ItemsScreen(
         ) {
             items(
                 items,
-                key = { item -> item.itemId } // it has to have a key, it wouldnt work without it
+                key = { item -> item.itemId } // it has to have a key, swipe wouldn't work without it
 
             ) { item ->
                 val dismissState = rememberDismissState()

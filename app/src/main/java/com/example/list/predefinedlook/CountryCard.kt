@@ -2,6 +2,8 @@ package com.example.list.predefinedlook
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,18 +19,15 @@ import androidx.compose.ui.unit.dp
 import com.example.list.data.api.MyData
 
 @Composable
-fun CountryCard(item: MyData) {
-    Row(
+fun CountryCard(item: MyData,  onCountryClick: (MyData) -> Unit) {
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .border(border = BorderStroke(2.dp, Color.Gray))
-            .padding(16.dp)
+            .border(2.dp, Color.Gray)
+            .clickable(onClick = { onCountryClick(item) })
+            .padding(8.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .height(120.dp)
-                .padding(start = 8.dp)
-        ) {
+        Column {
             Text(
                 text = "Name: ${item.name}",
                 style = MaterialTheme.typography.headlineMedium,
@@ -41,7 +40,6 @@ fun CountryCard(item: MyData) {
                 maxLines = 1
             )
             Spacer(modifier = Modifier.height(1.dp))
-
         }
     }
 }

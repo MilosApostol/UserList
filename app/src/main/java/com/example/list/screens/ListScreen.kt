@@ -1,9 +1,6 @@
 package com.example.list.screens
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.Toast
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,11 +9,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,7 +32,7 @@ import com.example.list.navigation.Screens
 import com.example.list.navigation.screensInDrawer
 import com.example.list.predefinedlook.AppBarView
 import com.example.list.predefinedlook.DrawerItem
-import com.example.list.predefinedlook.ListItems
+import com.example.list.predefinedlook.Lists
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -54,7 +49,7 @@ fun ListScreen(
     val scope = rememberCoroutineScope()
     val currentRoute = navController.currentDestination?.route
     val listById = userListsViewModel.getListsByUserId().collectAsState(initial = listOf()).value
-    var id = 0
+    val id = 0
     val userId = userListsViewModel.getUser()?.userId
     val sharedPreferences =
         context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
@@ -91,7 +86,6 @@ fun ListScreen(
                     }
                 })
 
-            Toast.makeText(context, "$checkIn", Toast.LENGTH_LONG).show()
             if (checkIn) {
                 val editor = sharedPreferences.edit().apply {
                     if (userId != null) {
@@ -126,32 +120,7 @@ fun ListScreen(
             }
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            items(
-                listById
-            ) { list ->
-                ListItems(
-                    list = list,
-                    onDeleteClick = {
-                        listViewModel.removeList(list)
-                        firebaseViewModel.removeAll(list.id.toString())
-                    },
-                    onRenameClick = {
-                        val id = list.id
-                        navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
-                    },
-                    onTextClick = {
-                        val id = list.id
-                        navController.navigate(Screens.ItemsScreen.name + "/$id")
-                    }
-
-                )
-            }
-
-        }
+        Lists(listById, listViewModel, navController, firebaseViewModel, paddingValues)
     }
 }
+
