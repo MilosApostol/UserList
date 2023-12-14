@@ -76,9 +76,10 @@ fun ItemsScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { list.listName },
+                title = { Text(text = list.listName) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Menu")
@@ -88,8 +89,8 @@ fun ItemsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-           //         navController.navigate(Screens.AddItems.name + "/$id")
-                          navController.navigate(Screens.AddItemsSearch.name)
+                    navController.navigate(Screens.AddItems.name + "/$id")
+                       //   navController.navigate(Screens.AddItemsSearch.name)
                 },
             ) {
                 Icon(Icons.Filled.Add, "Add List")

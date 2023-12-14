@@ -4,38 +4,42 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/*
 @HiltViewModel
-class AddItemsViewModel @Inject constructor(
-    private val countryRepository: CountryRepository
+class AddCustomViewModel @Inject constructor(
+    private val repository: AddItemsRepository,
 ) : ViewModel() {
 
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
-
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
-    val countries =
-        mutableStateListOf(countryRepository.getCountriesFilteredBySearchText(_searchText.value))
-
-    fun onSearchTextChange(text: String) {
-        _searchText.value = text
+    fun addItem(item: AddItemsCustom) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertItem(item)
+        }
     }
 
-    fun onToggleSearch() {
-        _isSearching.value = !_isSearching.value
-        if (!_isSearching.value) {
-            onSearchTextChange("")
+    lateinit var getAllItems: Flow<List<AddItemsCustom>>
+
+    init {
+        viewModelScope.launch {
+            getAllItems = repository.getItems()
+        }
+    }
+
+    fun getItemById(itemId: Int): Flow<AddItemsCustom> {
+        return repository.getItemsById(itemId)
+    }
+
+    fun removeItem(item: AddItemsCustom) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteItem(item)
         }
     }
 }
-
- */

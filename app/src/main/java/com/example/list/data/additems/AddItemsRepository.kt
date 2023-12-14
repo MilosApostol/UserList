@@ -1,33 +1,25 @@
 package com.example.list.data.additems
 
-import com.example.list.data.api.CountryApiService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
 
-/*
-class CountryRepository(countryApiService: CountryApiService) {
+class AddItemsRepository @Inject constructor(
+    private val dao: AddItemsDao
+) {
 
-    // Simulating data retrieval from a data source
-    private val countries = listOf(
-        country
-    )
+    suspend fun getItems(): Flow<List<AddItemsCustom>> {
+        return dao.getAll()
+    }
 
-    private val _countriesList = MutableStateFlow(countries)
+    fun getItemsById(id: Int): Flow<AddItemsCustom> {
+        return dao.getItemById(id)
+    }
 
-    fun getCountriesFilteredBySearchText(searchText: String): Flow<List<List<String>>> {
-        return _countriesList.combine(MutableStateFlow(searchText)) { countries, text ->
-            if (text.isBlank()) {
-                countries
-            } else {
-                countries.filter { country ->
-                    country.contains(text.trim().uppercase())
-                }
-            }
-        }
+    suspend fun insertItem(item: AddItemsCustom) {
+        dao.insertItem(item)
+    }
+    suspend fun deleteItem(item: AddItemsCustom) {
+        dao.deleteItem(item)
     }
 }
-
-
- */

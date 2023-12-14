@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.list.screens.AddItems
-import com.example.list.screens.AddItemsSearch
+import com.example.list.screens.tryout.AddItemsSearch
 import com.example.list.screens.AddList
 import com.example.list.screens.ItemsScreen
 import com.example.list.screens.ListScreen
