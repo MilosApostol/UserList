@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.devtools.ksp:symbol-processing-api:1.9.20-1.0.14">
+  <library name="Gradle: com.google.devtools.ksp:symbol-processing-api:1.9.20-1.0.14" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.devtools.ksp/symbol-processing-api/1.9.20-1.0.14/d2ad74a4925af1a7cf0ff6212794d83a05a0a652/symbol-processing-api-1.9.20-1.0.14.jar!/" />
     </CLASSES>

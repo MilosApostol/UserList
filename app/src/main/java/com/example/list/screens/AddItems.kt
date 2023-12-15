@@ -1,6 +1,6 @@
 package com.example.list.screens
 
-import androidx.compose.foundation.clickable
+import  androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,9 +34,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.list.Constants
 import com.example.list.data.additems.AddCustomViewModel
+import com.example.list.data.additems.AddItemsCustom
 import com.example.list.data.api.additemsapi.AddItemsViewModel
 import com.example.list.data.items.Items
 import com.example.list.navigation.Screens
+import com.example.list.screens.tryout.SearchItems
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import kotlinx.coroutines.Dispatchers
@@ -84,7 +86,11 @@ fun AddItems(
                 text = it
                 addItemsViewModel.onSearchChange(text)
             },
-            onSearch = { active = false },
+            onSearch = {
+                addCustomViewModel.addItem(AddItemsCustom(title = text))
+                saveData(itemName = text, id, navController)
+                active = false
+            },
             active = active,
             onActiveChange = { active = it },
             placeholder = { Text("Hinted search text") },
@@ -111,20 +117,17 @@ fun AddItems(
             LazyColumn() {
                 items(filteredItems) { items ->
                     Text(text = items.title)
-
                 }
-                /*
-                LazyColumn() {
-                    items(items.value) { item ->
-                        SearchItems(itemsData = item, onClick = {
-                            addItemsViewModel.addToSelectedItems(item)
-                            active = false
-                            saveData(item.title, id, navController)
+            }
+            LazyColumn() {
+                items(items.value) { item ->
+                    SearchItems(itemsData = item, onClick = {
+                        addItemsViewModel.addToSelectedItems(item)
+                        active = false
+                        saveData(item.title, id, navController)
 
-                        })
-                    }
-
-                 */
+                    })
+                }
             }
         }
     }

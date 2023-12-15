@@ -1,9 +1,9 @@
 <component name="libraryTable">
-  <library name="Gradle: androidx.lifecycle:lifecycle-runtime-compose:2.7.0-rc01@aar">
+  <library name="Gradle: androidx.lifecycle:lifecycle-runtime-compose:2.7.0-rc01@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/229d83eb6dd8344ac6014db30b1bb121/transformed/lifecycle-runtime-compose-2.7.0-rc01/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/229d83eb6dd8344ac6014db30b1bb121/transformed/lifecycle-runtime-compose-2.7.0-rc01/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/229d83eb6dd8344ac6014db30b1bb121/transformed/lifecycle-runtime-compose-2.7.0-rc01/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/97aae176ae43b0bb039964b801d0d4c0/transformed/lifecycle-runtime-compose-2.7.0-rc01/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/97aae176ae43b0bb039964b801d0d4c0/transformed/lifecycle-runtime-compose-2.7.0-rc01/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/97aae176ae43b0bb039964b801d0d4c0/transformed/lifecycle-runtime-compose-2.7.0-rc01/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
