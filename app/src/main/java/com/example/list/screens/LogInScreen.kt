@@ -1,6 +1,8 @@
 package com.example.list.screens
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,10 +47,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.list.BaseCompose
 import com.example.list.R
 import com.example.list.navigation.Screen
 import com.example.list.data.userdata.UserViewModel
 import com.example.list.navigation.Screens
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,13 +62,26 @@ import kotlinx.coroutines.launch
 fun LogInScreen(
     navController: NavHostController = rememberNavController(),
     userViewModel: UserViewModel = hiltViewModel()
-) {
+): BaseCompose {
+
     val context = LocalContext.current
+    lateinit var auth: FirebaseAuth
+    auth = Firebase.auth
 
     val sharedPreferences =
         context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
     val userId = sharedPreferences.getInt("userID", 0)
     var checkIn = sharedPreferences.getBoolean("check", false)
+
+
+    /*
+    val currentUser = auth.currentUser
+    if (currentUser != null) {
+        reload()
+    }
+
+
+     */
     if (userId != 0) {
         val setUser = userViewModel.setUserById(userId)
         navController.navigate(Screen.DrawerScreen.List.route)
@@ -72,6 +91,8 @@ fun LogInScreen(
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
+
+
         Column(modifier = Modifier.fillMaxWidth()) {
             TopAppBar(
                 title = { Text("LogInScreen") },
@@ -136,21 +157,45 @@ fun LogInScreen(
                         Button(
                             onClick = {
                                 scope.launch {
-                                    val user = userViewModel.login(name, password)
-                                    if (user) {
-                                        navController.navigate(Screen.DrawerScreen.List.route) {
-                                            popUpTo("auth") {
-                                                inclusive = true
+                                    auth.signInWithEmailAndPassword(name, password)
+                                        .addOnCompleteListener(context) { task ->
+                                            if (task.isSuccessful) {
+                                                val user = auth.currentUser
+                                                navController.navigate(Screen.DrawerScreen.List.route) {
+                                                    popUpTo("auth") {
+                                                        inclusive = true
+                                                    }
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Welcome back $name",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Invalid credentials",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
                                             }
-                                            Toast.makeText(
-                                                context, "Welcome back $name", Toast.LENGTH_LONG
-                                            ).show()
-                                        }
-                                    } else {
-                                        Toast.makeText(
-                                            context, "Invalid credentials", Toast.LENGTH_LONG
-                                        ).show()
-                                    }
+                                            /*
+                                            val user = userViewModel.login(name, password)
+                                            if (user) {
+                                                navController.navigate(Screen.DrawerScreen.List.route) {
+                                                    popUpTo("auth") {
+                                                        inclusive = true
+                                                    }
+                                                    Toast.makeText(
+                                                        context, "Welcome back $name", Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+
+                                             */
+                                        } else {
+                                    Toast.makeText(
+                                        context, "Invalid credentials", Toast.LENGTH_LONG
+                                    ).show()
+                                }
                                 }
                             }, modifier = Modifier
                                 .fillMaxWidth()
@@ -173,6 +218,28 @@ fun LogInScreen(
             }
         }
     }
+}
+
+@Composable
+fun FirebaseLogin(auth: FirebaseAuth, name: String, password: String) {
+    auth.signInWithEmailAndPassword(name, password)
+        .addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                // Sign in success, update UI with the signed-in user's information
+                Log.d(TAG, "signInWithEmail:success")
+                val user = auth.currentUser
+                updateUI(user)
+            } else {
+                // If sign in fails, display a message to the user.
+                Log.w(TAG, "signInWithEmail:failure", task.exception)
+                Toast.makeText(
+                    baseContext,
+                    "Authentication failed.",
+                    Toast.LENGTH_SHORT,
+                ).show()
+                updateUI(null)
+            }
+        }
 }
 
 @Preview

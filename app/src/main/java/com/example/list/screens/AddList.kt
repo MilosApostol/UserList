@@ -15,7 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,8 +31,7 @@ import androidx.navigation.NavController
 import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
+import java.util.UUID
 
 
 @OptIn(ExperimentalMaterial3Api::class)

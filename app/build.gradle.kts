@@ -144,6 +144,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-auth")
 
 // ViewModel
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -155,6 +157,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
-
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
 

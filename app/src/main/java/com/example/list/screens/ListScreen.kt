@@ -70,6 +70,9 @@ fun ListScreen(
                 onDeleteNavClicked = {
                     scope.launch {
                         listViewModel.deleteAllLists()
+                        for (listId in listById){
+                            firebaseViewModel.removeAll(listId.id.toString())
+                        }
                     }
                 },
                 onLogoutClicked = {

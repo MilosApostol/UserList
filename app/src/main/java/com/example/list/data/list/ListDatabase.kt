@@ -10,7 +10,7 @@ import com.example.list.data.userlists.UserListsDao
 
 @Database(
     entities = [ListEntity::class, User::class, AddItemsCustom::class],
-    version = 10,
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

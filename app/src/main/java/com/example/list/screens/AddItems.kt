@@ -38,10 +38,10 @@ import com.example.list.data.additems.AddItemsCustom
 import com.example.list.data.api.additemsapi.AddItemsViewModel
 import com.example.list.data.items.Items
 import com.example.list.navigation.Screens
-import com.example.list.screens.tryout.SearchItems
+import com.example.list.predefinedlook.CustomAdd
+import com.example.list.predefinedlook.SearchItems
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -115,8 +115,15 @@ fun AddItems(
             }
         ) {
             LazyColumn() {
+
                 items(filteredItems) { items ->
-                    Text(text = items.title)
+                    CustomAdd(customItem = items, onClick = {
+                    addCustomViewModel.removeItem(items)
+                    }, onRowClick = {
+                        addCustomViewModel.addToSelectedItems(items)
+                        saveData(itemName = items.title, id, navController)
+                        active = false
+                    })
                 }
             }
             LazyColumn() {

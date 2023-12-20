@@ -11,13 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.list.BaseCompose
+import com.example.list.NetworkViewModel
 import com.example.list.navigation.Screen
 import com.example.list.navigation.Screens
 
 @Composable
-fun SplashScreen(navController: NavController = rememberNavController()) {
+fun splashScreen(navController: NavController = rememberNavController()): BaseCompose {
+
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -43,3 +48,5 @@ fun SplashScreen(navController: NavController = rememberNavController()) {
 
     }
 }
+
+

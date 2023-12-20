@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.list.sessionmanager.UserSessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,6 +18,11 @@ class ListViewModel @Inject constructor(
     private val repository: ListRepository,
     private val userSession: UserSessionManager
 ) : ViewModel() {
+
+    val _isLoading = MutableStateFlow(false)
+   val isLoading = _isLoading.asStateFlow()
+
+
 
     fun addList(list: ListEntity) {
         list.listCreatorId = userSession.getUserId()!!
@@ -27,6 +35,8 @@ class ListViewModel @Inject constructor(
     init {
         viewModelScope.launch() {
             getAllLists = repository.getLists()
+            delay(3000)
+            _isLoading.value = false
         }
     }
 

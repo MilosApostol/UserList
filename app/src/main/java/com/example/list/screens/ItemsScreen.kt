@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Scaffold
@@ -31,7 +30,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,20 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.list.Constants
 import com.example.list.data.items.FirebaseViewModel
-import com.example.list.data.items.Items
 import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
-import com.example.list.navigation.Screen
 import com.example.list.navigation.Screens
-import com.example.list.predefinedlook.AppBarView
-import com.example.list.predefinedlook.ItemsBarView
 import com.example.list.predefinedlook.ItemsList
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
-import com.google.firebase.firestore.firestore
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -70,6 +59,7 @@ fun ItemsScreen(
 
     val items = itemsFlow.collectAsState(emptyList()).value
     val context = LocalContext.current
+    //getting a parent LIST
     val list = listViewModel.getListById(id)
         .collectAsState(initial = ListEntity(0, 0, "")).value
     val scaffoldState = rememberScaffoldState()
