@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import com.example.list.data.items.Items
+import com.example.list.data.firebase.items.Items
 import com.example.list.data.userdata.User
 import java.util.UUID
 
@@ -16,5 +16,5 @@ data class ListEntity(
     @ColumnInfo(name = "listId")
     var id: Int = 0,
     @ColumnInfo(name = "list_name")
-    var listName: String
+    var listName: String = ""
 )

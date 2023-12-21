@@ -46,6 +46,8 @@ import com.example.list.data.userdata.User
 import com.example.list.data.userdata.UserViewModel
 import com.example.list.navigation.Screen
 import com.example.list.navigation.Screens
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,6 +65,8 @@ fun RegisterScreen(
     val sharedPreferences = context.getSharedPreferences(
         stringResource(R.string.app_prefs), Context.MODE_PRIVATE
     )
+    val auth = Firebase.auth
+
 
 
 
@@ -122,6 +126,18 @@ fun RegisterScreen(
                     })
                     Button(onClick = {
                         scope.launch {
+                            auth.createUserWithEmailAndPassword(
+                                name.trim(),
+                                password.trim()
+                            )
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(context, "made", Toast.LENGTH_LONG).show()
+                                    } else {
+                                        Toast.makeText(context, "failed", Toast.LENGTH_LONG).show()
+
+                                    }
+                                }
                             val user = User(name = name, password = password)
                             val success = userViewModel.insertUser(user)
                             if (success) {
@@ -146,7 +162,7 @@ fun RegisterScreen(
         }
     }
 }
-
+/*
 @Composable
 fun RegisterUser(auth, name, password){
     auth.createUserWithEmailAndPassword(name, password)
@@ -168,4 +184,6 @@ fun RegisterUser(auth, name, password){
             }
         }
 }
+
+ */
 

@@ -1,8 +1,10 @@
 package com.example.list.data.list
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.list.data.ProvideNetworkState
 import com.example.list.sessionmanager.UserSessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,10 +21,11 @@ class ListViewModel @Inject constructor(
     private val userSession: UserSessionManager
 ) : ViewModel() {
 
-    val _isLoading = MutableStateFlow(false)
-   val isLoading = _isLoading.asStateFlow()
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
 
-
+    private val _networkState = MutableStateFlow<Boolean>(false)
+    val networkState = _networkState.asStateFlow()
 
     fun addList(list: ListEntity) {
         list.listCreatorId = userSession.getUserId()!!
@@ -32,6 +35,7 @@ class ListViewModel @Inject constructor(
     }
 
     lateinit var getAllLists: Flow<List<ListEntity>>
+
     init {
         viewModelScope.launch() {
             getAllLists = repository.getLists()
@@ -41,9 +45,10 @@ class ListViewModel @Inject constructor(
     }
 
 
-     fun getListById(listId: Int): Flow<ListEntity> {
+    fun getListById(listId: Int): Flow<ListEntity> {
         return repository.getListById(listId)
     }
+
     fun updateList(list: ListEntity) {
         list.listCreatorId = userSession.getUserId()!!
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,10 +61,24 @@ class ListViewModel @Inject constructor(
             repository.deleteList(list)
         }
     }
+
     fun deleteAllLists() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllLists()
         }
 
+    }
+
+    fun onNetworkRestored() {
+        lateinit var getAllLists: Flow<List<ListEntity>>
+        viewModelScope.launch() {
+            getAllLists = repository.getLists()
+            delay(3000)
+            _isLoading.value = false
+        }
+    }
+
+    fun updateNetworkState(isNetworkAvailable: Boolean) {
+        _networkState.value = isNetworkAvailable
     }
 }

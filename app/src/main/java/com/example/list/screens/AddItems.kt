@@ -33,10 +33,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.list.Constants
+import com.example.list.data.FireList
 import com.example.list.data.additems.AddCustomViewModel
 import com.example.list.data.additems.AddItemsCustom
 import com.example.list.data.api.additemsapi.AddItemsViewModel
-import com.example.list.data.items.Items
+import com.example.list.data.firebase.items.Items
+import com.example.list.data.list.ListEntity
+import com.example.list.data.list.ListViewModel
+import com.example.list.data.listitems.ListItemsViewModel
+import com.example.list.data.userdata.User
+import com.example.list.data.userlists.UserListsViewModel
 import com.example.list.navigation.Screens
 import com.example.list.predefinedlook.CustomAdd
 import com.example.list.predefinedlook.SearchItems
@@ -52,7 +58,10 @@ fun AddItems(
     id: Int,
     navController: NavController = rememberNavController(),
     addItemsViewModel: AddItemsViewModel = hiltViewModel(),
-    addCustomViewModel: AddCustomViewModel = hiltViewModel()
+    addCustomViewModel: AddCustomViewModel = hiltViewModel(),
+    userListsViewModel: UserListsViewModel = hiltViewModel(),
+    listViewModel: ListViewModel = hiltViewModel(),
+    listWithItemsViewModel: ListItemsViewModel = hiltViewModel()
 ) {
 
     var text by remember { mutableStateOf("") }
@@ -61,6 +70,9 @@ fun AddItems(
     val scope = rememberCoroutineScope()
     val allItems by addCustomViewModel.getAllItems.collectAsState(initial = listOf())
     val filteredItems = allItems.filter { it.title.contains(text, ignoreCase = true) }
+    val user = userListsViewModel.getUser()
+    val list = listWithItemsViewModel.getList()
+
 
     LaunchedEffect(Unit) {
         scope.launch {
@@ -118,7 +130,7 @@ fun AddItems(
 
                 items(filteredItems) { items ->
                     CustomAdd(customItem = items, onClick = {
-                    addCustomViewModel.removeItem(items)
+                        addCustomViewModel.removeItem(items)
                     }, onRowClick = {
                         addCustomViewModel.addToSelectedItems(items)
                         saveData(itemName = items.title, id, navController)
@@ -139,6 +151,7 @@ fun AddItems(
         }
     }
 }
+
 
 fun saveData(itemName: String, id: Int, navController: NavController) {
 

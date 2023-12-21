@@ -3,7 +3,9 @@ package com.example.list
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,24 +22,35 @@ import com.example.list.internet.ConnectionState
 import com.example.list.ui.theme.ListTheme
 
 
-class BaseCompose : ComponentActivity() {
+abstract class BaseCompose : ComponentActivity() {
 
-    private val networkViewModel:NetworkViewModel by viewModels()
+
+    private var connectivityManager: ConnectivityManager? = null
+    var connectionLost = false
+
+    private val networkCallback: ConnectivityManager.NetworkCallback =
+        object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                runOnUiThread {
+                    if (connectionLost) {
+                        onNetworkAvailable(true)
+                    }
+                }
+            }
+
+            override fun onLost(network: Network) {
+                runOnUiThread {
+                    onNetworkAvailable(false)
+                    connectionLost = true
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check for network status
-        val isNetworkAvailable = checkNetworkStatus()
-
-        // Update the ViewModel
-        networkViewModel.isNetworkAvailable = isNetworkAvailable
-
-        // Set up Compose UI using setContent
         setContent {
-            // Compose UI code here...
             ListTheme {
-                ProvideNetworkState(networkViewModel.isNetworkAvailable) {
                     Surface(
                         color = MaterialTheme.colors.background
                     ) {
@@ -46,32 +59,32 @@ class BaseCompose : ComponentActivity() {
                 }
             }
         }
+
+    open fun onNetworkAvailable(available: Boolean) {}
+    override fun onResume() {
+        super.onResume()
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager?.registerDefaultNetworkCallback(networkCallback)
+        } else {
+            val request =
+                NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .build()
+            connectivityManager?.registerNetworkCallback(request, networkCallback)
+        }
     }
 
-     fun checkNetworkStatus(): Boolean {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network =
-            connectivityManager.activeNetwork
-        Log.d("Network", "active network $network")
-        network ?: return false  // return false if network is null
-        val actNetwork = connectivityManager.getNetworkCapabilities(network)
-            ?: return false // return false if Network Capabilities is null
-        return when {
-            actNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> { // check if wifi is connected
-                Log.d("Network", "wifi connected")
-                true
-            }
+    override fun onPause() {
+        super.onPause()
+        connectivityManager?.unregisterNetworkCallback(networkCallback)
+        connectivityManager = null
+    }
 
-            actNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> { // check if mobile dats is connected
-                Log.d("Network", "cellular network connected")
-                true
-            }
-
-            else -> {
-                Log.d("Network", "internet not connected")
-                false
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        if (connectivityManager != null) {
+            connectivityManager?.unregisterNetworkCallback(networkCallback)
+            connectivityManager = null
         }
     }
 }

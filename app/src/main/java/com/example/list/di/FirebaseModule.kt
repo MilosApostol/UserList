@@ -1,9 +1,10 @@
 package com.example.list.di
 
-import com.example.list.data.items.FirebaseRepository
-import com.example.list.data.items.FirebaseViewModel
+import com.example.list.data.firebase.items.FirebaseRepository
+import com.example.list.data.firebase.items.FirebaseViewModel
+import com.example.list.data.firebase.items.auth.AuthRepositoryImpl
 import com.example.list.sessionmanager.ListSessionManager
-import com.example.list.sessionmanager.UserSessionManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
@@ -46,4 +47,23 @@ object FirebaseModule {
     fun provideFirebaseViewModel(repository: FirebaseRepository): FirebaseViewModel {
         return FirebaseViewModel(repository)
     }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseAuth() = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun providesAuthRepositoryImpl(firebaseAuth: FirebaseAuth): AuthRepositoryImpl {
+        return AuthRepositoryImpl(firebaseAuth = firebaseAuth)
+    }
+
+/*
+    @Provides
+    @Singleton
+    fun providesDatabaseRepositoryImpl(): DatabaseRepository {
+        return DatabaseRepositoryImpl()
+    }
+
+ */
 }

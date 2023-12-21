@@ -14,6 +14,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,7 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.list.R
-import com.example.list.data.items.FirebaseViewModel
+import com.example.list.data.ProvideNetworkState
+import com.example.list.data.firebase.items.FirebaseViewModel
 import com.example.list.data.list.ListViewModel
 import com.example.list.data.userdata.UserViewModel
 import com.example.list.data.userlists.UserListsViewModel
@@ -33,6 +35,9 @@ import com.example.list.navigation.screensInDrawer
 import com.example.list.predefinedlook.AppBarView
 import com.example.list.predefinedlook.DrawerItem
 import com.example.list.predefinedlook.Lists
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.database.database
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -54,76 +59,81 @@ fun ListScreen(
     val sharedPreferences =
         context.getSharedPreferences(stringResource(R.string.app_prefs), Context.MODE_PRIVATE)
     var checkIn = sharedPreferences.getBoolean("checked", false)
+    val networkState by listViewModel.networkState.collectAsState()
+    val db = Firebase.database
+  // val user = userListsViewModel.getUser()
+ //   db.getReference("users").child(user?.userId.toString()).setValue(user)
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    AppBarView(
+                        title = "ListScreen",
+                        onMenuNavClicked = {
+                            scope.launch {
+                                scaffoldState.drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+                            }
+                        },
+                        onDeleteNavClicked = {
+                            scope.launch {
+                                listViewModel.deleteAllLists()
+                                for (listId in listById) {
+                                    firebaseViewModel.removeAll(listId.id.toString())
+                                }
+                            }
+                        },
+                        onLogoutClicked = {
+                            scope.launch {
+                                userViewModel.logout()
+                                val editor = sharedPreferences.edit().apply {
+                                    if (checkIn) {
+                                        checkIn = false
+                                        putInt("userID", 0)
+                                    }
+                                    apply()
+                                }
+                                Firebase.auth.signOut()
+                                navController.navigate(Screens.LogInScreen.name)
+                            }
+                        })
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            AppBarView(
-                title = "ListScreen",
-                onMenuNavClicked = {
-                    scope.launch {
-                        scaffoldState.drawerState.apply {
-                            if (isClosed) open() else close()
-                        }
-                    }
-                },
-                onDeleteNavClicked = {
-                    scope.launch {
-                        listViewModel.deleteAllLists()
-                        for (listId in listById){
-                            firebaseViewModel.removeAll(listId.id.toString())
-                        }
-                    }
-                },
-                onLogoutClicked = {
-                    scope.launch {
-                        userViewModel.logout()
+                    if (checkIn) {
                         val editor = sharedPreferences.edit().apply {
-                            if (checkIn) {
-                                checkIn = false
-                                putInt("userID", 0)
+                            if (userId != null) {
+                                putInt("userID", userId)
                             }
                             apply()
                         }
-                        navController.navigate(Screens.LogInScreen.name)
                     }
-                })
-
-            if (checkIn) {
-                val editor = sharedPreferences.edit().apply {
-                    if (userId != null) {
-                        putInt("userID", userId)
-                    }
-                    apply()
-                }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
                 },
-            ) {
-                Icon(Icons.Filled.Add, "Add List")
-            }//drawerItems
-        }, drawerContent = {
-            LazyColumn(Modifier.padding(16.dp)) {
-                items(screensInDrawer) { item ->
-                    DrawerItem(selected = currentRoute == item.dRoute, item = item) {
-                        scope.launch {
-                            scaffoldState.drawerState.close()
-                        }
-                        if (item.dRoute == Screen.DrawerScreen.Add.route) {
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = {
                             navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
-                        } else {
-                            navController.navigate(item.dRoute)
+                        },
+                    ) {
+                        Icon(Icons.Filled.Add, "Add List")
+                    }//drawerItems
+                }, drawerContent = {
+                    LazyColumn(Modifier.padding(16.dp)) {
+                        items(screensInDrawer) { item ->
+                            DrawerItem(selected = currentRoute == item.dRoute, item = item) {
+                                scope.launch {
+                                    scaffoldState.drawerState.close()
+                                }
+                                if (item.dRoute == Screen.DrawerScreen.Add.route) {
+                                    navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
+                                } else {
+                                    navController.navigate(item.dRoute)
+                                }
+                            }
                         }
                     }
                 }
-            }
+            ) { paddingValues ->
+                Lists(listById, listViewModel, navController, firebaseViewModel, paddingValues)
+//TODO WHAT IF NETWORK IS OFFFFF
         }
-    ) { paddingValues ->
-        Lists(listById, listViewModel, navController, firebaseViewModel, paddingValues)
     }
-}
 

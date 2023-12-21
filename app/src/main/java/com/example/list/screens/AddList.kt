@@ -31,6 +31,8 @@ import androidx.navigation.NavController
 import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
 import java.util.UUID
 
 
@@ -40,11 +42,12 @@ fun AddList(
     id: Int, navController: NavController,
     listViewModel: ListViewModel = hiltViewModel(),
 ) {
+    val db = Firebase.database
     val context = LocalContext.current
     var listName by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
-    if (id != 0) { // editting/adding the details to the add screen
-        val list = listViewModel.getListById(id).collectAsState(initial = ListEntity(0, 0, ""))
+    if (id != 0) { // editing/adding the details to the add screen
+        val list = listViewModel.getListById(id).collectAsState(initial = ListEntity())
         listName = list.value.listName
     }
     Column(modifier = Modifier.fillMaxSize()) {
@@ -80,11 +83,12 @@ fun AddList(
                                 navController.navigate(Screen.DrawerScreen.List.route)
                                 isLoading = true
                             } else {
+                                val list = ListEntity(listName = listName)
+                                db.getReference("lists").child(list.id.toString()).setValue(list)
                                 listViewModel.addList(
-                                    ListEntity(
-                                        listName = listName,
-                                    )
+                                    list
                                 )
+
                                 navController.navigate(Screen.DrawerScreen.List.route)
                                 isLoading = true
                             }

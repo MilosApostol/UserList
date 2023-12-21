@@ -51,7 +51,7 @@ fun HistoryScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(paddingValues)
         ) {
             ElevatedCard(
                 modifier = Modifier

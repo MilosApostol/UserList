@@ -9,13 +9,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.list.screens.AddItems
-import com.example.list.screens.tryout.AddItemsSearch
 import com.example.list.screens.AddList
 import com.example.list.screens.ItemsScreen
 import com.example.list.screens.ListScreen
 import com.example.list.screens.LogInScreen
 import com.example.list.screens.RegisterScreen
-import com.example.list.screens.SplashScreen
 
 object Graph {
     const val AUTH = "auth_graph"
@@ -27,10 +25,10 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.SplashScreen.name,
+        startDestination = Screens.LogInScreen.name,
     ) {
-        composable(Screens.SplashScreen.name) {
-            SplashScreen(navController = navController)
+        composable(Screens.LogInScreen.name) {
+            LogInScreen(navController = navController)
         }
         navigation(
             route = Graph.AUTH,
@@ -88,7 +86,7 @@ fun NavGraph(
 
 
         composable(Screens.AddItemsSearch.name) {
-            AddItemsSearch()
+         //   AddItemsSearch()
         }
     }
 }

@@ -12,22 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.list.data.firebase.items.FirebaseViewModel
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.NavGraph
 import com.example.list.ui.theme.ListTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseCompose() {
     private val listViewModel: ListViewModel by viewModels()
-    private val networkViewModel:NetworkViewModel by viewModels()
+    private val firebaseViewModel: FirebaseViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        installSplashScreen().apply{
-            this.setKeepOnScreenCondition{
+        installSplashScreen().apply {
+            this.setKeepOnScreenCondition {
                 listViewModel.isLoading.value
             }//allows you to fetch data
         }
@@ -42,4 +45,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onNetworkAvailable(available: Boolean) {
+        if (available) {
+            listViewModel.onNetworkRestored()
+            firebaseViewModel.onNetworkRestored()
+        }
+    }
+
 }
