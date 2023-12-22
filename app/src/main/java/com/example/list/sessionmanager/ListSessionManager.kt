@@ -10,7 +10,7 @@ class ListSessionManager{
     }
 
     fun getListId(): Int? {
-        return currentList?.id
+        return currentList?.id?.toInt()
     }
 
     fun getList(): ListEntity? {

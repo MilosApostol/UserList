@@ -51,6 +51,40 @@ fun ItemsList(
         }
     }
 }
+@Composable
+fun ListList(
+    item: ListEntity = ListEntity()
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+                    .clickable {
+                    },
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    text = item.listName,
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        }
+    }
+}
+
 
 @Preview
 @Composable

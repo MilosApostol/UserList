@@ -9,8 +9,9 @@ enum class Screens{
     ItemsScreen,
     LogInScreen,
     RegisterScreen,
-    SplashScreen,
-    AddItemsSearch
+    AddListFire,
+    ListScreenFire,
+    LoginFireBase
 }
 
 sealed class Screen(

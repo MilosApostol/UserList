@@ -56,12 +56,13 @@ fun ItemsScreen(
 ) {
 
     val itemsFlow = firebaseViewModel.getAllItems
-
     val items = itemsFlow.collectAsState(emptyList()).value
+
+
     val context = LocalContext.current
     //getting a parent LIST
     val list = listViewModel.getListById(id)
-        .collectAsState(initial = ListEntity(0, 0, "")).value
+        .collectAsState(initial = ListEntity("")).value
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(

@@ -19,6 +19,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.util.prefs.Preferences
 import javax.inject.Singleton
 
 @Module
@@ -77,5 +78,9 @@ class AppModule {
     @Singleton
     fun providesAddCustomDao(database: AppDatabase) = database.addItemCustomDao()
 
+    @Provides
+    @Singleton
+    fun provideApplicationContext(@ApplicationContext context: Context): Context {
+        return context
+    }
 }
-

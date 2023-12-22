@@ -10,5 +10,5 @@ import kotlinx.coroutines.flow.Flow
 abstract class UserListsDao {
 
     @Query("SELECT * FROM `list_table` WHERE listCreatorId = :userId")
-    abstract fun getListsByUserId(userId: Int): Flow<List<ListEntity>>
+    abstract fun getListsByUserId(userId: String): Flow<List<ListEntity>>
 }

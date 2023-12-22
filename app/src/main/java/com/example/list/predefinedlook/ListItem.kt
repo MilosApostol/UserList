@@ -25,7 +25,7 @@ import com.example.list.data.list.ListEntity
 
 @Composable
 fun ListItems(
-    list: ListEntity = ListEntity(listName = "", listCreatorId = 0),
+    list: ListEntity = ListEntity(listName = "aaaaaaaaaaaaaaa"),
     modifier: Modifier = Modifier,
     onRenameClick: () -> Unit = {},
     onTextClick: () -> Unit = {},

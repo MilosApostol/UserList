@@ -16,7 +16,7 @@ class UserListsViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getListsByUserId(): Flow<List<ListEntity>> {
-        return userSessionManager.getUser()?.userId?.let { userListRepository.getUsersListById(it) }
+        return userSessionManager.getUser()?.userId?.let { userListRepository.getUsersListById(it.toString()) }
             ?: emptyFlow()
     }
 

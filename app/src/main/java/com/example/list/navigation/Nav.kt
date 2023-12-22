@@ -9,10 +9,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.list.screens.AddItems
-import com.example.list.screens.AddList
+import com.example.list.screens.room.AddList
+import com.example.list.screens.AddListFire
 import com.example.list.screens.ItemsScreen
-import com.example.list.screens.ListScreen
-import com.example.list.screens.LogInScreen
+import com.example.list.screens.room.ListScreen
+import com.example.list.screens.ListScreenFire
+import com.example.list.screens.room.LogInScreen
+import com.example.list.screens.LoginFireBase
 import com.example.list.screens.RegisterScreen
 
 object Graph {
@@ -25,10 +28,10 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.LogInScreen.name,
+        startDestination = Screens.LoginFireBase.name,
     ) {
-        composable(Screens.LogInScreen.name) {
-            LogInScreen(navController = navController)
+        composable(Screens.LoginFireBase.name) {
+            LoginFireBase(navController = navController)
         }
         navigation(
             route = Graph.AUTH,
@@ -47,6 +50,7 @@ fun NavGraph(
         ) {
             ListScreen(navController = navController)
         }
+
         composable(
             Screen.DrawerScreen.Add.route + "/{id}",
             arguments = listOf(navArgument("id") {
@@ -85,8 +89,11 @@ fun NavGraph(
         }
 
 
-        composable(Screens.AddItemsSearch.name) {
-         //   AddItemsSearch()
+        composable(Screens.AddListFire.name) {
+           AddListFire(navController)
+        }
+        composable(Screens.ListScreenFire.name) {
+            ListScreenFire(navController)
         }
     }
 }

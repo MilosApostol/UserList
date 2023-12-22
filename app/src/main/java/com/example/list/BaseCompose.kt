@@ -1,6 +1,7 @@
 package com.example.list
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Network
@@ -9,6 +10,7 @@ import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -18,8 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.list.internet.ConnectionState
+import com.example.list.navigation.Screen
 import com.example.list.ui.theme.ListTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 
 abstract class BaseCompose : ComponentActivity() {
@@ -86,5 +92,61 @@ abstract class BaseCompose : ComponentActivity() {
             connectivityManager?.unregisterNetworkCallback(networkCallback)
             connectivityManager = null
         }
+    }
+
+    fun attemptSilentLogin(sharedPreferences: SharedPreferences) {
+        val email = sharedPreferences.getString("email", null)
+        val password = sharedPreferences.getString("password", null)
+        val stayLoggedIn = sharedPreferences.getBoolean("stayLoggedIn", false)
+
+        if (email != null && password != null && stayLoggedIn) {
+            Firebase.auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Silent login successful
+                    } else {
+                        // Silent login failed, clear credentials and prompt for login
+                        clearCredentials(sharedPreferences)
+                    }
+                }
+        }
+    }
+
+    private fun clearCredentials(sharedPreferences: SharedPreferences) {
+        sharedPreferences.edit()
+            .remove("email")
+            .remove("password")
+            .putBoolean("stayLoggedIn", false)
+            .apply()
+    }
+
+    fun handleLogin(
+        email: String,
+        password: String,
+        navController: NavHostController,
+        context: Context,
+    ) {
+        Firebase.auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = Firebase.auth.currentUser
+                    navController.navigate(Screen.DrawerScreen.List.route) {
+                        popUpTo("auth") {
+                            inclusive = true
+                        }
+                        Toast.makeText(
+                            context,
+                            "Welcome back $email",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Invalid credentials",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
     }
 }

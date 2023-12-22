@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">List</string>
     <string name="app_prefs" />
+    <string name="firebase_check"/>
 </resources>

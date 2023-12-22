@@ -120,7 +120,7 @@ fun RegisterScreen(
                     Checkbox(checked = check, onCheckedChange = {
                         check = it
                         val editor = sharedPreferences.edit().apply {
-                            putBoolean("checked", check)
+                            putBoolean("stayLoggedIn", check)
                             apply()
                         }
                     })
@@ -138,6 +138,7 @@ fun RegisterScreen(
 
                                     }
                                 }
+                            /*
                             val user = User(name = name, password = password)
                             val success = userViewModel.insertUser(user)
                             if (success) {
@@ -153,6 +154,9 @@ fun RegisterScreen(
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
+                        }
+
+                             */
                         }
                     }) {
                         Text("Register")

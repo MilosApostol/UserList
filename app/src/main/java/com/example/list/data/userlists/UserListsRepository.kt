@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UserListsRepository @Inject constructor(
     private val userListsDao: UserListsDao,
 ) {
-    fun getUsersListById(userId: Int): Flow<List<ListEntity>> {
+    fun getUsersListById(userId: String): Flow<List<ListEntity>> {
         return userListsDao.getListsByUserId(userId)
     }
 }
