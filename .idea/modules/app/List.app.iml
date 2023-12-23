@@ -19,6 +19,20 @@
       </configuration>
     </facet>
   </component>
+  <component name="ModuleClassLoaderOverlays">
+    <paths>
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay8951000242368446140" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay5383066046304934112" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay12754530553010455155" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay2902685095772635128" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay4586949890186162142" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay18033413230320428781" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay4404119929219364765" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay13921014461786104371" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay9979171385868179510" />
+      <option value="C:\Users\Thinkpad\AppData\Local\Temp\overlay1661012342328643437" />
+    </paths>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../app">

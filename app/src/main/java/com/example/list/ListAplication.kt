@@ -6,7 +6,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class ListApplication: Application() {
-    companion object {
-        var authStateListener: FirebaseAuth.AuthStateListener? = null
-    }
 }

@@ -13,6 +13,12 @@ import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
 import com.example.list.navigation.Screens
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.database.core.Constants
+import com.google.firebase.database.database
+import java.util.UUID
 
 @Composable
 fun Lists(
@@ -34,19 +40,51 @@ fun Lists(
             ListItems(
                 list = list,
                 onDeleteClick = {
-                    listViewModel.removeList(list)
-                    firebaseViewModel.removeAll(list.id.toString())
+                    val listKey = list.id
+                    Firebase.database.getReference(com.example.list.Constants.Lists)
+                        .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+                        .child(listKey)
+                        .removeValue()
+
                 },
                 onRenameClick = {
-                    val id = list.id
-                    navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
+                    updateList(list.listName, navController)
+                    //  val id = list.id
+                    // navController.navigate(Screen.DrawerScreen.Add.route + "/$id")
                 },
                 onTextClick = {
-                    val id = list.id
-                    navController.navigate(Screens.ItemsScreen.name + "/$id")
+                    //    val id = list.id
+                    //     navController.navigate(Screens.ItemsScreen.name + "/$id")
                 }
 
             )
         }
     }
+}
+
+private fun updateList(username: String, navController: NavController) {
+    val db = Firebase.database
+    val ref = db.getReference(com.example.list.Constants.Lists)
+
+    // Use a push key to create a new entry in the database
+    val key = ref.push().key ?: return
+
+    // Create a ListEntity
+    val list = ListEntity(username)
+
+    // Use setValue to update the child with the new list
+    ref.child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+        .child(key)
+        .setValue(list)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                navController.navigate(Screens.ListScreenFire.name)
+            } else {
+                // Handle failed update
+            }
+        }
+}
+
+private fun deleteList() {
+
 }

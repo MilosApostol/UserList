@@ -28,6 +28,7 @@ import com.example.list.Constants
 import com.example.list.data.list.ListEntity
 import com.example.list.data.list.ListViewModel
 import com.example.list.navigation.Screen
+import com.example.list.navigation.Screens
 import com.example.list.screens.room.ListNameTextField
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -75,7 +76,7 @@ fun AddListFire(
                                 .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
                                 .push()
                                 .setValue(list)
-                            navController.navigate(Screen.DrawerScreen.List.route)
+                            navController.navigate(Screens.ListScreenFire.name)
                             isLoading = true
 
                         } else {
